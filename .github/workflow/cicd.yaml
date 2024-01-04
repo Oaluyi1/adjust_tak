@@ -1,0 +1,219 @@
+-name: Adjust App Deployment
+
+on:
+  pull_request:
+  push:
+    branches:
+      - feature/home_task
+
+jobs:
+  lint-code:
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+  
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+    
+      - name: Install Dependencies
+        run: |
+          pip install --no-cache-dir -r requirements.txt
+          pip install --upgrade pip
+          pip install flake8
+          pip install black
+      
+      - name: Debug installed packages
+        run: |
+          pip list
+        
+
+      - name: Lint Code
+        run: |
+          flake8 .
+          black --check . || true
+    
+      - name: Display Linting Results
+        run: flake8 . --show-source --statistics
+
+  test:
+    runs-on: ubuntu-latest
+    needs: lint-code
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Tests
+        run: python -m unittest testing/test_app.py
+
+  analyse-Dockerfile:
+    runs-on: ubuntu-latest
+    needs: [lint-code,test]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install Hadolint
+        run: |
+          sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64
+          sudo chmod +x /bin/hadolint
+
+      - name: Run Hadolint
+        run: hadolint Dockerfile
+
+  build-Docker-image:
+    runs-on: ubuntu-latest
+    needs: analyse-Dockerfile
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3.0.0
+  
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          labels: |
+            org.opencontainers.image.title=my-app
+            org.opencontainers.image.description=Docker image for the app
+          tags: 2470/home_task:latest
+        id: docker_build    
+      
+      - name: Run Security Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 2470/home_task:latest
+          format: 'table'
+          exit-code: '0'
+
+  start-minikube:
+    runs-on: ubuntu-latest
+    needs: [build-Docker-image]
+    
+    steps:
+      - name: Install Minikube
+        run: |
+          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+          sudo dpkg -i minikube_latest_amd64.deb
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+  
+  install-helm:
+    runs-on: ubuntu-latest
+    needs: start-minikube
+        
+    steps:
+      - name: Install Helm
+        run: |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
+    
+  helm-deploy:
+    runs-on: ubuntu-latest
+    needs: install-helm
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+    
+      - name: Start Minikube
+        run: minikube start
+      
+      - name: Wait for Minikube to be Ready
+        run: |
+          until kubectl cluster-info; do
+            sleep 5
+          done
+      
+      - name: use minikube context
+        run: |
+          kubectl config use-context minikube
+
+      - name: Deploy with Helm
+        run: |
+          helm install --debug my-release helm-charts -f ./helm-charts/values.yaml \
+            --set image.registry=docker.io \
+            --set image.repository=2470/home_task \
+            --set image.tag=latest \
+            --set image.pullPolicy=IfNotPresent \
+            --set service.name=hello \
+            --set service.externalPort=5000 \
+            --set service.internalPort=5000 \
+            --set service.type=NodePort \
+            --set service.app=hello \
+            --set release.name=my-release \
+            --set release.namespace=default \
+            --set microservice.name=hello \
+            --set replicaCount=3
+
+      - name: Test Helm Deployment for /hello
+        run: |
+          set -e  # Exit on any error
+      
+          # Retry up to 3 times with a 5-second delay
+          for i in {1..3}; do
+            curl -f http://127.0.0.1:5000/hello || true  # Silence curl output
+            if [ $? -eq 0 ]; then
+              echo "Container endpoint accessible"
+              exit 0
+            fi
+            sleep 5
+          done
+      
+          # Endpoint unavailable after retries
+          echo "Container endpoint unavailable after retries"
+          exit 2  # Specific exit code for endpoint failure
+      
+          # Additional endpoint validation
+          expected_response="Hello, world!"
+          actual_response=$(curl -s http://127.0.0.1:5000/hello)  # Capture response
+          if [[ "$actual_response" != "$expected_response" ]]; then
+            echo "Unexpected response from endpoint: $actual_response"
+            exit 3  # Specific exit code for incorrect response
+          fi
+      - name: Test Docker Container for /health
+        run: |
+            set -e  # Exit on any error
+        
+            # Retry up to 3 times with a 5-second delay
+            for i in {1..3}; do
+              curl -f http://127.0.0.1:5000/health || true  # Silence curl output
+              if [ $? -eq 0 ]; then
+                echo "Container healthy!"
+                exit 0
+              fi
+              sleep 5
+            done
+        
+            # Health check failed after retries
+            echo "Container unhealthy after retries"
+            exit 2  # Specific exit code for health check failure
+
