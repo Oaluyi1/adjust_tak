@@ -160,7 +160,20 @@ jobs:
 
       - name: Deploy with Helm
         run: |
-          helm install --debug my-release ./helm-charts -f ./helm-charts/values.yaml
+          helm install --debug my-release helm-charts -f ./helm-charts/values.yaml \
+            --set image.registry=docker.io \
+            --set image.repository=2470/home_task \
+            --set image.tag=latest \
+            --set image.pullPolicy=IfNotPresent \
+            --set service.name=hello \
+            --set service.externalPort=5000 \
+            --set service.internalPort=5000 \
+            --set service.type=NodePort \
+            --set service.app=hello \
+            --set release.name=my-release \
+            --set release.namespace=default \
+            --set microservice.name=hello \
+            --set replicaCount=3
 
 
       - name: Test Helm Deployment for /hello
