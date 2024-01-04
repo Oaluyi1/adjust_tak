@@ -20,12 +20,12 @@ spec:
         - name: {{ .Values.service.app }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
-            - containerPort: {{ .Values.service.internalPort }}
+            - containerPort: {{ .Values.service.externalPort }}
               name: http
           readinessProbe:
             httpGet:
               path: /health  
-              port: {{ .Values.service.internalPort }}
+              port: {{ .Values.service.externalPort }}
             initialDelaySeconds: 30  
             periodSeconds: 10 
             failureThreshold: 3
