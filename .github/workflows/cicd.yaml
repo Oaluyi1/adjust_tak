@@ -163,7 +163,6 @@ jobs:
         
       - name: get service 
         run: |
-          kubectl get services -n my-app
           minikube service hello --url
           
 
