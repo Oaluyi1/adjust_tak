@@ -3,7 +3,7 @@
 image:
   registry: docker.io
   repository: 2470/home_task
-  tag: v2
+  tag: latest
   pullPolicy: IfNotPresent
 resources:
   limits: 
