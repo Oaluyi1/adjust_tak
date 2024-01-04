@@ -20,4 +20,12 @@ spec:
         - name: {{ .Values.service.app }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
-            - containerPort: 5000
+            - containerPort: {{ .Values.service.internalPort }}
+              name: http
+          readinessProbe:
+            httpGet:
+            path: /health
+            port: {{ .Values.service.internalPort }}
+            initialDelaySeconds: 60  
+            periodSeconds: 5  
+            failureThreshold: 3
