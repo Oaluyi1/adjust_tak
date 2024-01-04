@@ -177,7 +177,7 @@ jobs:
           minikube_ip=$(minikube ip)
         
           # Get Service NodeIp and Port
-          node_port=$(kubectl get service hello -n my-app -o=jsonpath='{.spec.ports[0].nodePort}')
+          node_port=$(kubectl get service hello -o=jsonpath='{.spec.ports[0].nodePort}')
           curl -f "http://${minikube_ip}:${node_port}/hello"
         
           # Retry up to 3 times with a 5-second delay
