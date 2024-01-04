@@ -178,7 +178,7 @@ jobs:
         run: |
           set -e  # Exit on any error
 
-          sleep 20
+          sleep 60
       
           # Retry up to 3 times with a 5-second delay
           for i in {1..3}; do
@@ -203,13 +203,13 @@ jobs:
           fi
 
       - name: Print Container Logs
-        run: kubectl get logs -n my-app
+        run: kubectl logs -c hello -n my-app
         
       - name: Test Docker Container for /health
         run: |
             set -e  # Exit on any error
 
-            sleep 20
+            sleep 60
         
             # Retry up to 3 times with a 5-second delay
             for i in {1..3}; do
