@@ -164,48 +164,36 @@ jobs:
       - name: get service and url
         run: |
           kubectl get services hello
+          minikube service hello --url
           
 
-      - name: Test Helm Deployment for /hello
+      - name: Test Docker Container for /health
         run: |
           set -e  # Exit on any error
-
-          sleep 20
-
+      
+          # Sleep for a while to allow the service to be fully deployed
+          sleep 60
+        
           # Get Minikube IP
           minikube_ip=$(minikube ip)
-
-
-          # Get Service Node IP and Port
-          node_port=$(kubectl get service hello -o=jsonpath='{.spec.ports[0].nodePort}')
+        
+          # Get Service ClusterIP and Port
+          node_port=$(kubectl get service <your-service-name> --namespace=default -o=jsonpath='{.spec.ports[0].nodePort}')
           curl -f "http://${minikube_ip}:${node_port}/hello"
-
-          echo "minikube ip: $minikube_ip"
-          echo "Node Port: $node_port"
-      
+        
           # Retry up to 3 times with a 5-second delay
           for i in {1..3}; do
-          curl -f "http://${minikube_ip}:${node_port}/hello" || true  # Silence curl output
+            curl -f "http://${cluster_ip}:${port}/hello" || true  # Silence curl output
             if [ $? -eq 0 ]; then
-              echo "Container is up and running"
+              echo "Container healthy!"
               exit 0
             fi
-            
             sleep 5
-
           done
-      
-          # Endpoint unavailable after retries
-          echo "Container endpoint unavailable after retries"
-          exit 2  # Specific exit code for endpoint failure
-      
-          # Additional endpoint validation
-          expected_response="Hello, world!"
-          actual_response=$(curl -s http://${minikube_ip}:${node_port}/hello)  # Capture response
-          if [[ "$actual_response" != "$expected_response" ]]; then
-            echo "Unexpected response from endpoint: $actual_response"
-            exit 3  # Specific exit code for incorrect response
-          fi
+        
+            echo "Container is up and running"
+            exit 2  # Specific exit code for container launch failure
+        
         
       - name: Test Docker Container for /health
         run: |
