@@ -159,12 +159,13 @@ jobs:
 
       - name: Deploy with Helm
         run: |
-          helm install --debug my-release helm-charts -f ./helm-charts/values.yaml 
+          helm upgrade --install my-release helm-charts -f ./helm-charts/values.yaml 
         
       - name: get service and url
         run: |
+          kubectl get pods
           kubectl get services hello
-          minikube service hello --url
+          minikube service hello --url/hello
           
 
       - name: Test Docker Container for /health
