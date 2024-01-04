@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ .Values.service.name }}
   namespace: {{ .Values.namespace.name }}
   labels: 
-    app: {{ .Release.Name }}-{{ .Values.version | default .Chart.AppVersion }}
+    app: {{ .Values.service.name }}-{{ .Values.version | default .Chart.AppVersion }}
     release: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
+      app: {{ .Values.service.name }}
   template:
     metadata:
       labels:
