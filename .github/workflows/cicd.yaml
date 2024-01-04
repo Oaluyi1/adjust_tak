@@ -201,9 +201,6 @@ jobs:
             echo "Unexpected response from endpoint: $actual_response"
             exit 3  # Specific exit code for incorrect response
           fi
-
-      - name: Print Container Logs
-        run: kubectl logs -c hello -n my-app
         
       - name: Test Docker Container for /health
         run: |
