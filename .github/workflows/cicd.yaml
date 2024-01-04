@@ -169,6 +169,7 @@ jobs:
         run: |
           kubectl get pods -A
           kubectl get pods -n my-app
+          kubectl describe pods -n my-app
         
       # - name: get service 
       #   run: |
