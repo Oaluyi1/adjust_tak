@@ -1,7 +1,7 @@
 ##common properties that can we can override by environments
 
 image:
-  registry: docker.io
+  registry: registry-1.docker.io
   repository: 2470/home_task
   tag: latest
   pullPolicy: IfNotPresent

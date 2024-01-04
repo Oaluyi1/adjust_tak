@@ -141,9 +141,7 @@ jobs:
     needs: install-helm
     
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-    
+          
       - name: Start Minikube
         run: minikube start --kubernetes-version=v1.20.2 --memory=4096 --cpus=2 --alsologtostderr -v=7
       
@@ -211,7 +209,7 @@ jobs:
           fi
           
           echo "Container endpoint accessible and response is correct"
-          
+
       - name: Test Docker Container for /health
         run: |
             set -e  # Exit on any error
