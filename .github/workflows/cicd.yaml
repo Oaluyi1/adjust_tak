@@ -182,6 +182,9 @@ jobs:
           # Get Service ClusterIP and Port
           cluster_ip=$(kubectl get service hello -o=jsonpath='{.spec.clusterIP}')
           port=$(kubectl get service hello -o=jsonpath='{.spec.ports[0].port}')
+
+          echo "Service ClusterIP: $cluster_ip"
+          echo "Service Port: $port"
       
           # Retry up to 3 times with a 5-second delay
           for i in {1..3}; do
