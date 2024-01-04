@@ -161,9 +161,9 @@ jobs:
         run: |
           helm install --debug my-release helm-charts -f ./helm-charts/values.yaml 
         
-      # - name: get service 
-      #   run: |
-      #     minikube service hello --url
+      - name: get service 
+        run: |
+          minikube service hello --url
           
 
       - name: Test Docker Container for /hello
