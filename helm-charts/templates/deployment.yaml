@@ -24,8 +24,8 @@ spec:
               name: http
           readinessProbe:
             httpGet:
-            path: /health
-            port: {{ .Values.service.internalPort }}
-            initialDelaySeconds: 60  
+              path: /health  
+              port: {{ .Values.service.internalPort }}
+            initialDelaySeconds: 10  
             periodSeconds: 5  
             failureThreshold: 3
