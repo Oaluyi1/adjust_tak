@@ -1,0 +1,18 @@
+# Define code owners for specific directories or files
+# The format is similar to .gitignore, with patterns and corresponding GitHub usernames
+
+# Assigning code owners for Python files in the app directory
+app/*.py      @Oaluyi1
+
+# Assigning code owners for Docker-related files
+Dockerfile    @Oaluyi1
+
+
+# Assigning code owners for Helm chart files
+helm-charts/**/*    @Oaluyi1
+
+# Assigning code owners for GitHub Actions workflows
+.github/workflows/* @Oaluyi1
+
+# Assigning code owners for documentation files
+docs/*       @Oaluyi1
