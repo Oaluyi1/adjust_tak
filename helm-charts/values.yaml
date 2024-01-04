@@ -34,4 +34,4 @@ namespace:
 #   name: my-serviceaccount
 
 # Replica count for the Deployment
-replicaCount: 3
+replicaCount: 1
