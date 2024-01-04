@@ -19,11 +19,9 @@ spec:
       containers:
         - name: {{ .Values.service.name }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
-          pullpolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.externalPort }}
               name: http
-          cpu: {{ .Values.resources.limits.cpu }}
           readinessProbe:
             httpGet:
               path: /health  
