@@ -170,7 +170,7 @@ jobs:
             --set service.type=NodePort \
             --set service.app=hello \
             --set release.name=my-release \
-            --set release.namespace=default \
+            --set release.namespace=my-app \
             --set microservice.name=hello \
             --set replicaCount=3
 
