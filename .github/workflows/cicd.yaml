@@ -203,7 +203,7 @@ jobs:
           fi
 
       - name: Print Container Logs
-        run: kubectl logs -l app=hello -c hello-container -n default
+        run: kubectl get logs -n my-app
         
       - name: Test Docker Container for /health
         run: |
