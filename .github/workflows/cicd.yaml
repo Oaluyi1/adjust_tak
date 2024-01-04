@@ -165,7 +165,7 @@ jobs:
         run: |
           kubectl get pods
           kubectl get services hello
-          minikube service hello --url/hello
+          minikube service hello --url
           
 
       - name: Test Docker Container for /health
