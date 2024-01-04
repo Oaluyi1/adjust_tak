@@ -3,7 +3,7 @@
 image:
   registry: docker.io
   repository: 2470/home_task
-  tag: latest
+  tag: v2
   pullPolicy: IfNotPresent
 htaccessPersistenceEnabled: false
 extraVolumes: []
@@ -15,7 +15,7 @@ resources:
 
 service: 
   name: hello
-  externalPort: 5000
+  externalPort: 8080
   internalPort: 5000
   type: NodePort
   app: hello
@@ -32,10 +32,6 @@ namespace:
 # serviceAccount:
 #   create: true
 #   name: my-serviceaccount
-
-# Microservice details
-microservice:
-  name: hello
 
 # Replica count for the Deployment
 replicaCount: 3

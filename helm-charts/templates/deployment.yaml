@@ -4,13 +4,13 @@ metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Values.namespace.name }}
   labels: 
-    app: {{ .Values.microservice.name }}-{{ .Values.version | default .Chart.AppVersion }}
+    app: {{ .Release.Name }}-{{ .Values.version | default .Chart.AppVersion }}
     release: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Values.microservice.name }}
+      app: {{ .Release.Name }}
   template:
     metadata:
       labels:
