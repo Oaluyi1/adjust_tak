@@ -160,7 +160,7 @@ jobs:
 
       - name: Deploy with Helm
         run: |
-          helm install --debug my-release Oaluyi1/helm-charts -f ./helm-charts/values.yaml \
+          helm install --debug my-release adjust_tak/helm-charts -f ./helm-charts/values.yaml \
             --set image.registry=docker.io \
             --set image.repository=2470/home_task \
             --set image.tag=latest \
