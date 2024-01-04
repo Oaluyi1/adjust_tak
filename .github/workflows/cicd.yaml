@@ -150,10 +150,7 @@ jobs:
     
       - name: Start Minikube
         uses: medyagh/setup-minikube@master
-      
-      - name: Try the cluster !
-        run: kubectl get pods -A
-      
+            
       - name: Wait for Minikube to be Ready
         run: |
           until kubectl cluster-info; do
@@ -167,6 +164,9 @@ jobs:
       - name: Deploy with Helm to minikube
         run: |
           helm install --debug my-release helm-charts -f ./helm-charts/values.yaml 
+      
+      - name: Try the cluster !
+        run: kubectl get pods -A
         
       - name: get service 
         run: |
