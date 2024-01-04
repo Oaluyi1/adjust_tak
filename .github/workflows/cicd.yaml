@@ -159,7 +159,7 @@ jobs:
 
       - name: Deploy with Helm
         run: |
-          helm upgrade --install my-release helm-charts -f ./helm-charts/values.yaml 
+          helm upgrade --install --debug my-release helm-charts -f ./helm-charts/values.yaml 
         
       - name: get service and url
         run: |
