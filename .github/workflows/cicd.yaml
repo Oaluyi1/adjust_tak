@@ -160,7 +160,7 @@ jobs:
 
       - name: Deploy with Helm
         run: |
-          helm install --debug my-release adjust_tak/helm-charts -f ./helm-charts/values.yaml
+          helm install --debug my-release ./helm-charts -f ./helm-charts/values.yaml
 
       - name: Test Helm Deployment for /hello
         run: |
