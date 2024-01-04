@@ -5,13 +5,12 @@ image:
   repository: 2470/home_task
   tag: v2
   pullPolicy: IfNotPresent
-htaccessPersistenceEnabled: false
-extraVolumes: []
 resources:
-  limits: {}
+  limits: 
+    memory: 700Mi
   requests:
     memory: 512Mi
-    cpu: 300
+    cpu: 300m
 
 service: 
   name: hello
