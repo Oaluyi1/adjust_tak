@@ -10,7 +10,7 @@ spec:
     - protocol: TCP
       port: {{ .Values.service.externalPort }}
       targetPort: {{ .Values.service.internalPort }}
-      nodePort: 5000
+      nodePort: 30000
       name: {{ .Values.service.name }}
   type: {{ .Values.service.type }}
 {{- end }}
