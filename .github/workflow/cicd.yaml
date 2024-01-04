@@ -1,4 +1,4 @@
--name: Adjust App Deployment
+-name: CICD Deployment
 
 on:
   push:
