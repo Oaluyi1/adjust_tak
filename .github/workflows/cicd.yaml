@@ -181,7 +181,7 @@ jobs:
           sleep 20
 
           minikube_ip=$(minikube ip)
-          node_port=$(kubectl get service my-release -o=jsonpath='{.spec.ports[0].nodePort}')
+          node_port=$(kubectl get service hello -o=jsonpath='{.spec.ports[0].nodePort}')
       
           # Retry up to 3 times with a 5-second delay
           for i in {1..3}; do
@@ -214,7 +214,7 @@ jobs:
             sleep 20
             
             minikube_ip=$(minikube ip)
-            node_port=$(kubectl get service my-release -o=jsonpath='{.spec.ports[0].nodePort}')
+            node_port=$(kubectl get service hello -o=jsonpath='{.spec.ports[0].nodePort}')
         
             # Retry up to 3 times with a 5-second delay
             for i in {1..3}; do
