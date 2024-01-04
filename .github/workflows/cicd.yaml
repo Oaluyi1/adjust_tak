@@ -178,16 +178,21 @@ jobs:
         run: |
           set -e  # Exit on any error
 
-          sleep 60
+          sleep 20
+
+          minikube_ip=$(minikube ip)
+          node_port=$(kubectl get service my-release-hello -o=jsonpath='{.spec.ports[0].nodePort}')
       
           # Retry up to 3 times with a 5-second delay
           for i in {1..3}; do
-            curl -f http://127.0.0.1:5000/hello || true  # Silence curl output
+            curl -f "http://${minikube_ip}:${node_port}/hello" || true  # Silence curl output
             if [ $? -eq 0 ]; then
-              echo "Container endpoint accessible"
+              echo "Container is healthy"
               exit 0
             fi
+            
             sleep 5
+
           done
       
           # Endpoint unavailable after retries
@@ -202,22 +207,29 @@ jobs:
             exit 3  # Specific exit code for incorrect response
           fi
         
-      - name: Test Docker Container for /health
-        run: |
+          - name: Test Docker Container for /health
+          run: |
             set -e  # Exit on any error
-
+        
             sleep 60
+            
+            minikube_ip=$(minikube ip)
+            node_port=$(kubectl get service my-release-hello -o=jsonpath='{.spec.ports[0].nodePort}')
         
             # Retry up to 3 times with a 5-second delay
             for i in {1..3}; do
-              curl -f http://127.0.0.1:5000/health || true  # Silence curl output
+              curl -f "http://${minikube_ip}:${node_port}/health" || true  # Silence curl output
               if [ $? -eq 0 ]; then
                 echo "Container healthy!"
+
                 exit 0
               fi
+
               sleep 5
+              
             done
         
             # Health check failed after retries
             echo "Container unhealthy after retries"
             exit 2  # Specific exit code for health check failure
+        
