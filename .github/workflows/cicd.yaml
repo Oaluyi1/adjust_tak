@@ -141,7 +141,7 @@ jobs:
     needs: install-helm
     
     steps:
-          
+
       - name: Start Minikube
         run: minikube start --kubernetes-version=v1.20.2 --memory=4096 --cpus=2 --alsologtostderr -v=7
       
@@ -160,7 +160,7 @@ jobs:
 
       - name: Deploy with Helm
         run: |
-          helm install --debug my-release helm-charts -f ./helm-charts/values.yaml \
+          helm install --debug my-release Oaluyi1/helm-charts -f ./helm-charts/values.yaml \
             --set image.registry=docker.io \
             --set image.repository=2470/home_task \
             --set image.tag=latest \
