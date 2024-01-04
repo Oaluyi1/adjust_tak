@@ -24,7 +24,10 @@ service:
 # Release information
 release:
   name: my-release
-  namespace: my-app
+
+namespace:
+  enabled: true
+  name: my-app
 
 # Microservice details
 microservice:
