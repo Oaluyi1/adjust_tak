@@ -161,10 +161,8 @@ jobs:
         run: |
           helm upgrade --install --debug my-release helm-charts -f ./helm-charts/values.yaml 
         
-      - name: get service and url
+      - name: get service 
         run: |
-          kubectl get pods -n my-app
-          kubectl get nodes
           kubectl get services -n my-app
           minikube service hello --url
           
