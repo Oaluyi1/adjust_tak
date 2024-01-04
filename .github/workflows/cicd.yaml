@@ -159,24 +159,11 @@ jobs:
 
       - name: Deploy with Helm
         run: |
-          helm install --debug my-release helm-charts -f ./helm-charts/values.yaml \
-            --set image.registry=docker.io \
-            --set image.repository=2470/home_task \
-            --set image.tag=latest \
-            --set image.pullPolicy=IfNotPresent \
-            --set service.name=hello \
-            --set service.externalPort=5000 \
-            --set service.internalPort=5000 \
-            --set service.type=NodePort \
-            --set service.app=hello \
-            --set release.name=my-release \
-            --set release.namespace=default \
-            --set microservice.name=hello \
-            --set replicaCount=3
+          helm install --debug my-release helm-charts -f ./helm-charts/values.yaml 
         
-      - name: get service
+      - name: get service and url
         run: |
-          kubectl get services
+          kubectl get services hello
           
 
       - name: Test Helm Deployment for /hello
@@ -184,16 +171,21 @@ jobs:
           set -e  # Exit on any error
 
           sleep 20
-          # Get Service ClusterIP and Port
-          cluster_ip=$(kubectl get service hello -o=jsonpath='{.spec.clusterIP}')
-          port=$(kubectl get service hello -o=jsonpath='{.spec.ports[0].port}')
 
-          echo "Service ClusterIP: $cluster_ip"
-          echo "Service Port: $port"
+          # Get Minikube IP
+          minikube_ip=$(minikube ip)
+
+
+          # Get Service Node IP and Port
+          node_port=$(kubectl get service hello -o=jsonpath='{.spec.ports[0].nodePort}')
+          curl -f "http://${minikube_ip}:${node_port}/hello"
+
+          echo "minikube ip: $minikube_ip"
+          echo "Node Port: $node_port"
       
           # Retry up to 3 times with a 5-second delay
           for i in {1..3}; do
-            curl -f "http://${cluster_ip}:${port}/hello" || true  # Silence curl output
+          curl -f "http://${minikube_ip}:${node_port}/hello" || true  # Silence curl output
             if [ $? -eq 0 ]; then
               echo "Container is up and running"
               exit 0
@@ -209,7 +201,7 @@ jobs:
       
           # Additional endpoint validation
           expected_response="Hello, world!"
-          actual_response=$(curl -s http://${cluster_ip}:${port}/hello)  # Capture response
+          actual_response=$(curl -s http://${minikube_ip}:${node_port}/hello)  # Capture response
           if [[ "$actual_response" != "$expected_response" ]]; then
             echo "Unexpected response from endpoint: $actual_response"
             exit 3  # Specific exit code for incorrect response
@@ -221,13 +213,13 @@ jobs:
         
           sleep 20
             
-          # Get Service ClusterIP and Port
-          cluster_ip=$(kubectl get service hello -o=jsonpath='{.spec.clusterIP}')
-          port=$(kubectl get service hello -o=jsonpath='{.spec.ports[0].port}')
+          # Get Node IP and Port
+          node_port=$(kubectl get service hello -o=jsonpath='{.spec.ports[0].nodePort}')
+          curl -f "http://${minikube_ip}:${node_port}/health"
         
             # Retry up to 3 times with a 5-second delay
             for i in {1..3}; do
-              curl -f "http://${cluster_ip}:${port}/health" || true  # Silence curl output
+              curl -f "http://${minikube_ip}:${node_port}/health" || true  # Silence curl output
               if [ $? -eq 0 ]; then
                 echo "Container healthy!"
 
