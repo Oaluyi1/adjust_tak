@@ -173,6 +173,15 @@ jobs:
             --set release.namespace=default \
             --set microservice.name=hello \
             --set replicaCount=3
+        
+      - name: List Pods and Health Status
+        run: |
+          # List all pods in the my-app namespace
+          kubectl get pods -n my-app
+          
+          # Get detailed information about the health of each pod
+          kubectl get pods -n my-app -o custom-columns="NAME:.metadata.name,STATUS:.status.phase,HEALTH:.status.containerStatuses[*].ready" --no-headers=true
+          
 
       - name: Test Helm Deployment for /hello
         run: |
