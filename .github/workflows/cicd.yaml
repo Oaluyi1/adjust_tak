@@ -163,8 +163,9 @@ jobs:
         
       - name: get service and url
         run: |
-          kubectl get pods
-          kubectl get services hello
+          kubectl get pods -n my-app
+          kubectl get nodes
+          kubectl get services -n my-app
           minikube service hello --url
           
 
