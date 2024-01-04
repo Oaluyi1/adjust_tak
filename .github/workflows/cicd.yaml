@@ -166,7 +166,7 @@ jobs:
       #     minikube service hello --url
           
 
-      - name: Test Docker Container for /health
+      - name: Test Docker Container for /hello
         run: |
           set -e  # Exit on any error
       
@@ -176,8 +176,8 @@ jobs:
           # Get Minikube IP
           minikube_ip=$(minikube ip)
         
-          # Get Service ClusterIP and Port
-          node_port=$(kubectl get service <your-service-name> --namespace=default -o=jsonpath='{.spec.ports[0].nodePort}')
+          # Get Service NodeIp and Port
+          node_port=$(kubectl get service hello --namespace=my-app -o=jsonpath='{.spec.ports[0].nodePort}')
           curl -f "http://${minikube_ip}:${node_port}/hello"
         
           # Retry up to 3 times with a 5-second delay
