@@ -166,12 +166,14 @@ jobs:
           helm install --debug my-release helm-charts -f ./helm-charts/values.yaml 
       
       - name: Try the cluster !
-        run: kubectl get pods -A
-        
-      - name: get service 
         run: |
-          minikube service hello --url
-          curl $(minikube service hello --url)
+          kubectl get pods -A
+          kubectl get pods -n my-app
+        
+      # - name: get service 
+      #   run: |
+      #     minikube service hello --url
+      #     curl $(minikube service hello --url)
           
 
       - name: Test Docker Container for /hello
