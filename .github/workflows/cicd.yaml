@@ -166,6 +166,7 @@ jobs:
         run: |
           minikube status
           kubectl describe node minikube
+          kubectl logs my-release-deployment -c hello-container -n my-app
           kubectl wait --for=condition=Ready node/minikube --timeout=5m
 
       
