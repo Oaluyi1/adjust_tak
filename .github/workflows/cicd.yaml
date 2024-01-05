@@ -183,28 +183,28 @@ jobs:
         run: |
           helm install --debug my-release helm-charts -f ./helm-charts/values.yaml 
 
-          # # Wait for the pod to be ready
-          # set -e
-          # seconds=0
-          # max_seconds=600  # Adjust the maximum waiting time as needed
+          # Wait for the pod to be ready
+          set -e
+          seconds=0
+          max_seconds=600  # Adjust the maximum waiting time as needed
 
-          # while [ "$seconds" -lt "$max_seconds" ]; do
-          #   pod_status=$(kubectl get pods -n my-app -o jsonpath='{.status.phase}')
-          #   if [ "$pod_status" == "Failed" ]; then
-          #     echo "Pod failed to start. Exiting..."
-          #     exit 1
-          #   elif [ "$pod_status" == "Running" ]; then
-          #     echo "Pod is running!"
-          #     exit 0
-          #   else
-          #     echo "Waiting for the pod to be ready. Elapsed time: $seconds seconds."
-          #     sleep 10
-          #     seconds=$((seconds+10))
-          #   fi
-          # done
+          while [ "$seconds" -lt "$max_seconds" ]; do
+            pod_status=$(kubectl get pods -n my-app -o jsonpath='{.status.phase}')
+            if [ "$pod_status" == "Failed" ]; then
+              echo "Pod failed to start. Exiting..."
+              exit 1
+            elif [ "$pod_status" == "Running" ]; then
+              echo "Pod is running!"
+              exit 0
+            else
+              echo "Waiting for the pod to be ready. Elapsed time: $seconds seconds."
+              sleep 10
+              seconds=$((seconds+10))
+            fi
+          done
 
-          # echo "Timeout: Pod did not become ready within the allotted time."
-          # exit 1
+          echo "Timeout: Pod did not become ready within the allotted time."
+          exit 1
 
       
       - name: Try the cluster !
