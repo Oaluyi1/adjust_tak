@@ -28,4 +28,4 @@ spec:
               port: {{ .Values.service.externalPort }}
             initialDelaySeconds: 60  
             periodSeconds: 20 
-            failureThreshold: 3
+            failureThreshold: 5
