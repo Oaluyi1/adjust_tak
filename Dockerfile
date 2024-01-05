@@ -18,5 +18,5 @@ COPY . /app/
 EXPOSE 5000
 
 #run the app.py when the container launches
-CMD ["python", "app/app.py"]
-# CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app.app:app"]
+#CMD ["python", "app/app.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app.app:app"]
