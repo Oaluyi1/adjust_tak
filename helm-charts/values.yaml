@@ -6,12 +6,12 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 resources:
-  limits: 
-    cpu: 1
-    memory: 900Mi
-  # requests:
-  #   memory: 512Mi
-  #   cpu: 500m
+  limits:
+    cpu: "1"
+    memory: "900Mi"
+  requests:
+    cpu: "500m"
+    memory: "512Mi"
 
 service: 
   name: hello
