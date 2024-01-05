@@ -152,15 +152,15 @@ jobs:
         id: minikube
         with:
           cache: false
-          minikube-version: 1.32.0
+          minikube-version: "latest"
           driver: docker
           container-runtime: containerd
           kubernetes-version: v1.27.9
-          cpus: 4
-          memory: 4000m
           cni: bridge
-          addons: registry,ingress
+          addons: "docker-registry ingress"
           wait: all
+          run: |
+            eval $(minikube -p minikube docker-env)
             
       - name: Wait for Minikube to be Ready
         run: |
