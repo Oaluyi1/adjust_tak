@@ -161,8 +161,7 @@ jobs:
           memory: 4000m
           cni: bridge
           addons: registry,ingress
-        # run: |
-        #   minikube start
+          wait: all
             
       - name: Wait for Minikube to be Ready
         run: |
