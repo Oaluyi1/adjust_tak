@@ -53,6 +53,8 @@ jobs:
         run: |
           pip install -r requirements.txt
           pip install --upgrade pip
+          pip install gunicorn
+
 
       - name: Run Tests
         run: python -m unittest testing/test_app.py
