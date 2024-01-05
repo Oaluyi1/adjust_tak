@@ -176,7 +176,7 @@ jobs:
       
       - name: Enable Minikube ingress
         run: |
-          minikube ingress
+          minikube addons enable ingress
 
       - name: Deploy with Helm to minikube
         run: |
