@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Values.namespace.name }}
   labels: 
     app: {{ .Values.service.name }}-{{ .Values.version | default .Chart.AppVersion }}
-    # release: {{ .Release.Name }}
+    release: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
