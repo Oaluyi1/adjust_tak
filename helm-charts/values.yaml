@@ -15,10 +15,9 @@ resources:
 
 service: 
   name: hello
-  externalPort: 8080
+  externalPort: 5000
   internalPort: 5000
   type: LoadBalancer
-  # app: hello
   enabled: true
 
 # Release information
