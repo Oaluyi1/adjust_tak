@@ -5,13 +5,14 @@ image:
   repository: 2470/home_task
   tag: latest
   pullPolicy: Always
+  containerPort: 5000
 resources:
   limits:
     cpu: "4000m"  # 4 CPU
-    memory: "10Gi"  # 10 Gigabyte
+    memory: 3072Mi
   requests:
-    cpu: "2000m"   # 2 CPU
-    memory: "4Gi"  # 4 Gigabyte
+    cpu: "10m"   
+    memory: "2048Mi"
 
 service: 
   name: hello
