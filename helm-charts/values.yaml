@@ -17,7 +17,7 @@ service:
   name: hello
   externalPort: 5000
   internalPort: 5000
-  type: LoadBalancer
+  type: NodePort
   enabled: true
 
 # Release information
