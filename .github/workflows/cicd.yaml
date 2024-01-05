@@ -177,7 +177,7 @@ jobs:
         run: |
           minikube addons enable ingress
           minikube addons enable dashboard
-          minikube addons enable metrics-server	
+          # minikube addons enable metrics-server	
 
       - name: Deploy with Helm to minikube
         run: |

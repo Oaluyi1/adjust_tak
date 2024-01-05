@@ -7,11 +7,11 @@ image:
   pullPolicy: IfNotPresent
 resources:
   limits:
-    cpu: "1"
-    memory: "900Mi"
+    cpu: "4000m"  # 4 CPU
+    memory: "4Gi"  # 4 Gigabyte
   requests:
-    cpu: "500m"
-    memory: "512Mi"
+    cpu: "1000m"   # 1 CPU
+    memory: "512Mi"  # 512 Megabytes
 
 service: 
   name: hello
