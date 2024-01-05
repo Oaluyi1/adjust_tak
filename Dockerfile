@@ -17,5 +17,6 @@ COPY . /app/
 #expose the app port
 EXPOSE 5000
 
-#run the appy.py when the container launches
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app.app:app"]
+#run the app.py when the container launches
+CMD ["python", "app/app.py"]
+# CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app.app:app"]
