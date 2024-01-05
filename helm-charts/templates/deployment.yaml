@@ -19,6 +19,7 @@ spec:
       containers:
       - name: {{ .Values.service.name }}-container
         image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
           # image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         ports:
           - containerPort: {{ .Values.service.externalPort }}
