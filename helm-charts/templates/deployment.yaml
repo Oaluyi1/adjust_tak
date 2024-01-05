@@ -33,13 +33,3 @@ spec:
           requests:
               cpu: {{ .Values.resources.requests.cpu }}
               memory: {{ .Values.resources.requests.memory }}
-
-
-          #     name: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /health  
-          #     port: {{ .Values.service.externalPort }}
-          #   initialDelaySeconds: 60  
-          #   periodSeconds: 20 
-          #   failureThreshold: 5

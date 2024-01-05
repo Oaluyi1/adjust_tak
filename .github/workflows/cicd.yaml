@@ -152,10 +152,10 @@ jobs:
         id: minikube
         with:
           cache: false
-          minikube-version: 1.24.0
+          minikube-version: 1.32.0
           driver: docker
           container-runtime: containerd
-          kubernetes-version: v1.22.3
+          kubernetes-version: v1.27.9
           cpus: 4
           memory: 4000m
           cni: bridge
