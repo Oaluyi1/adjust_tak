@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.release.name }}-deployment
-  # namespace: {{ .Values.namespace.name }}
+  namespace: {{ .Values.namespace.name }}
   labels: 
     app: {{ .Values.service.name }}-{{ .Values.version | default .Chart.AppVersion }}
     # release: {{ .Release.Name }}
