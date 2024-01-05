@@ -211,7 +211,6 @@ jobs:
         run: |
           kubectl get pods -A
           kubectl describe pods -n my-app
-          kubectl logs -c hello-container -n my-app
       
       - name: Port-Forward Service
         run: |
