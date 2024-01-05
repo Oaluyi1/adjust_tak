@@ -161,8 +161,6 @@ jobs:
           memory: 4000m
           cni: bridge
           addons: registry,ingress
-          extra-config: 'kubelet.max-pods=10'
-          feature-gates: 'DownwardAPIHugePages=true'
         # run: |
         #   minikube start
             
