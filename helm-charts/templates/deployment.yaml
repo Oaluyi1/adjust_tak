@@ -20,16 +20,16 @@ spec:
       - name: {{ .Values.service.name }}-container
         image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
           # image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
-          ports:
-            - containerPort: {{ .Values.service.externalPort }}
-          env:
-            - name: ENV_VARIABLE_NAME
-              value: "Dev"
-          resources:
-            limits:
-              cpu: {{ .Values.resources.limits.cpu }}
-              memory: {{ .Values.resources.limits.memory }}
-            requests:
+        ports:
+          - containerPort: {{ .Values.service.externalPort }}
+        env:
+          - name: ENV_VARIABLE_NAME
+            value: "Dev"
+        resources:
+          limits:
+            cpu: {{ .Values.resources.limits.cpu }}
+            memory: {{ .Values.resources.limits.memory }}
+          requests:
               cpu: {{ .Values.resources.requests.cpu }}
               memory: {{ .Values.resources.requests.memory }}
 
