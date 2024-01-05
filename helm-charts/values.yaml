@@ -17,8 +17,26 @@ service:
   name: hello
   externalPort: 5000
   internalPort: 5000
-  type: NodePort
+  type: ClusterIP
+  enabled: false
+
+#Ingress configuration
+ingress: 
   enabled: true
+  name: hello-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hosts:
+    - host: "*"
+      paths:
+        - path: /hello
+          backend:
+            serviceName: hello
+            servicePort: 5000
+        - path: /health
+          backend:
+            serviceName: hello
+            servicePort: 5000
 
 # Release information
 release:

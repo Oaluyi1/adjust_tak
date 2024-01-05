@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.service.name }}
-  namespace: {{ .Values.namespace.name }}
+  name: {{ .Values.release.name }}-deployment
+  # namespace: {{ .Values.namespace.name }}
   labels: 
     app: {{ .Values.service.name }}-{{ .Values.version | default .Chart.AppVersion }}
-    release: {{ .Release.Name }}
+    # release: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -17,15 +17,28 @@ spec:
         app: {{ .Values.service.name }}
     spec:
       containers:
-        - name: {{ .Values.service.name }}
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        - name: {{ .Values.service.name }}-container
+        image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+          # image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           ports:
             - containerPort: {{ .Values.service.externalPort }}
-              name: http
-          readinessProbe:
-            httpGet:
-              path: /health  
-              port: {{ .Values.service.externalPort }}
-            initialDelaySeconds: 60  
-            periodSeconds: 20 
-            failureThreshold: 5
+          env:
+            - name: ENV_VARIABLE_NAME
+              value: "Dev"
+          resources:
+            limits:
+              cpu: {{ .Values.resources.limits.cpu }}
+              memory: {{ .Values.resources.limits.memory }}
+            requests:
+              cpu: {{ .Values.resources.requests.cpu }}
+              memory: {{ .Values.resources.requests.memory }}
+
+
+          #     name: http
+          # readinessProbe:
+          #   httpGet:
+          #     path: /health  
+          #     port: {{ .Values.service.externalPort }}
+          #   initialDelaySeconds: 60  
+          #   periodSeconds: 20 
+          #   failureThreshold: 5

@@ -168,9 +168,9 @@ jobs:
             sleep 5
           done
       
-      - name: use minikube context
-        run: |
-          kubectl config use-context minikube
+      # - name: use minikube context
+      #   run: |
+      #     kubectl config use-context minikube
       
       - name: Enable Minikube ingress
         run: |
@@ -180,7 +180,7 @@ jobs:
 
       - name: Deploy with Helm to minikube
         run: |
-          helm install --debug my-release helm-charts -f ./helm-charts/values.yaml 
+          helm install --wait --debug my-release helm-charts -f ./helm-charts/values.yaml 
 
           # Wait for the pod to be ready
           set -e
@@ -213,16 +213,15 @@ jobs:
       
       - name: Port-Forward Service
         run: |
-          kubectl port-forward service/hello 8080:5000 -n my-app
-        
-          - name: Set up cURL
-          run: sudo apt-get install -y curl
+          kubectl port-forward service/hello 8080:5000 -n my-app &
+          sleep 10  # Sleep for some time to allow port-forward to establish
   
+      - name: Set up cURL
+        run: sudo apt-get install -y curl
+    
       - name: Test App with cURL
         run: |
           set -e  # Exit on any error
-
-          sleep 60
   
           # Retry up to 3 times with a 5-second delay
           for i in {1..3}; do
