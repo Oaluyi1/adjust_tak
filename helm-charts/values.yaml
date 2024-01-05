@@ -17,7 +17,7 @@ service:
   name: hello
   externalPort: 8080
   internalPort: 5000
-  type: NodePort
+  type: LoadBalancer
   # app: hello
   enabled: true
 
