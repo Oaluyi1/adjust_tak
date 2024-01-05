@@ -159,7 +159,7 @@ jobs:
           kubernetes-version: v1.22.3
           cpus: 4
           memory: 4000m
-          cni: bridge
+          cni: calico
           addons: registry,ingress
           wait: all
             
@@ -176,6 +176,7 @@ jobs:
       - name: Enable Minikube ingress
         run: |
           minikube addons enable ingress
+          minikube addons enable dashboard
 
       - name: Deploy with Helm to minikube
         run: |
