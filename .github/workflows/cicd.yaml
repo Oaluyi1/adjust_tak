@@ -149,7 +149,9 @@ jobs:
         uses: actions/checkout@v3
     
       - name: Start Minikube
-        uses: medyagh/setup-minikube@master
+        # uses: medyagh/setup-minikube@master
+        run: |
+          minikube start
             
       - name: Wait for Minikube to be Ready
         run: |
@@ -187,7 +189,7 @@ jobs:
           minikube_ip=$(minikube ip)
         
           # Get Service NodeIp and Port
-          node_port=$(kubectl get service hello- -n my-app -o=jsonpath='{.spec.ports[0].nodePort}')
+          node_port=$(kubectl get service hello -n my-app -o=jsonpath='{.spec.ports[0].nodePort}')
           curl -f "http://muinikube/${minikube_ip}:${node_port}/hello"
         
           # Retry up to 3 times with a 5-second delay
