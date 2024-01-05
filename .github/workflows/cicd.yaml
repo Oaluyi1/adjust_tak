@@ -164,9 +164,9 @@ jobs:
             
       - name: Wait for Minikube to be Ready
         run: |
-          until kubectl cluster-info; do
-            sleep 5
-          done
+          minikube status
+          kubectl wait --for=condition=Ready node/minikube --timeout=5m
+
       
       # - name: use minikube context
       #   run: |
