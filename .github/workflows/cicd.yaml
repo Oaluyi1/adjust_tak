@@ -169,8 +169,10 @@ jobs:
       
       - name: update KUBECONFIG file
         run: |
-          kubectl config set-context my-app --namespace=my-app --cluster=minikube --user=minikube
+          kubectl config set-context minikube --namespace=my-app --cluster=minikube --user=minikube
           kubectl config use-context my-app
+          kubectl config view --minify > kubeconfig-my-app
+          export KUBECONFIG=$(pwd)/kubeconfig-my-app
       
       - name: Enable Minikube ingress
         run: |
@@ -180,7 +182,7 @@ jobs:
 
       - name: Deploy with Helm to minikube
         run: |
-          helm upgrade --install --debug my-release helm-charts
+          helm install --debug my-release helm-charts
 
 
           # # Wait for the pod to be ready
