@@ -197,6 +197,7 @@ jobs:
           while [ "$seconds" -lt "$max_seconds" ]; do
             pod_status=$(kubectl get pods -n my-app -o jsonpath='{.status.phase}')
             if [ "$pod_status" == "Failed" ] || [ "$pod_status" == "Pending" ]; then
+              echo "Waiting for the pod to be ready. Elapsed time: $seconds seconds. Current status: $pod_status"
               echo "Pod failed to start or is still pending. Exiting..."
               exit 1
             elif [ "$pod_status" == "Running" ]; then
@@ -216,7 +217,7 @@ jobs:
       - name: Try the cluster !
         run: |
           kubectl get pods -n my-app
-          kubectl describe pods -n my-app
+          kubectl describe pod -n my-app
           kubectl get deployments -n my-app
           kubectl get services -n my-app
       
