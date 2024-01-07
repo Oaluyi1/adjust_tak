@@ -134,11 +134,11 @@ jobs:
         
     steps:
       - name: Install Helm
-        run: |
-          helm repo add stable https://charts.helm.sh/stable
-          helm repo update
-          helm upgrade --install --force helm-release stable/helm
-        
+        uses: mirzakhany/install-helm-action@v1
+        # run: |
+        #   curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+        #   chmod 700 get_helm.sh
+        #   ./get_helm.sh
     
   helm-deploy:
     runs-on: ubuntu-latest
