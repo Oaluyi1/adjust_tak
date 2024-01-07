@@ -169,8 +169,8 @@ jobs:
       
       - name: update KUBECONFIG file
         run: |
-          kubectl config set-context minikube --namespace=my-app --cluster=minikube --user=minikube
-          kubectl config use-context my-app
+          kubectl config set-context minikube --namespace=my-app
+          kubectl config get-contexts
           kubectl config view --minify > kubeconfig-my-app
           export KUBECONFIG=$(pwd)/kubeconfig-my-app
       
