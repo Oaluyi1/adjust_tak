@@ -3,6 +3,10 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: {{ .Values.namespace.name }}
+  labels:
+    app.kubernetes.io/managed-by: Helm
+    meta.helm.sh/release-name: my-release
+    meta.helm.sh/release-namespace: {{ .Values.namespace.name }}
   annotations:
     debug: "This namespace is being created."
 {{- end }}
