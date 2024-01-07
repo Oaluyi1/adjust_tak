@@ -45,7 +45,7 @@ release:
 
 namespace:
   enabled: true
-  name: hello-app
+  name: my-app
 
 # serviceAccount:
 #   create: true
