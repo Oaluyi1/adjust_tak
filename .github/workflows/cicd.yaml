@@ -182,7 +182,8 @@ jobs:
 
       - name: Deploy with Helm to minikube
         run: |
-          helm install --debug my-release helm-charts
+          helm uninstall my-release
+          helm install --debug my-release helm-charts --namespace my-app
 
 
           # # Wait for the pod to be ready
