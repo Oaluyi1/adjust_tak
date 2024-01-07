@@ -185,6 +185,7 @@ jobs:
         run: |
           kubectl config current-context
           helm version
+          kubectl get namespaces
           helm upgrade --install --debug my-release helm-charts --namespace my-app
 
           # # Wait for the pod to be ready
