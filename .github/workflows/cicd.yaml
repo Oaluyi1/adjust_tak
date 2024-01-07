@@ -196,8 +196,8 @@ jobs:
 
           while [ "$seconds" -lt "$max_seconds" ]; do
             pod_status=$(kubectl get pods -n my-app -o jsonpath='{.status.phase}')
-            if [ "$pod_status" == "Failed" ]; then
-              echo "Pod failed to start. Exiting..."
+            if [ "$pod_status" == "Failed" ] || [ "$pod_status" == "Pending" ]; then
+              echo "Pod failed to start or is still pending. Exiting..."
               exit 1
             elif [ "$pod_status" == "Running" ]; then
               echo "Pod is running!"
