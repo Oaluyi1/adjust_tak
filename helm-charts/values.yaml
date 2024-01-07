@@ -55,6 +55,6 @@ serviceaccount:
 deployment:
   replicas: 3
 
-  template:
-    spec:
-      serviceAccountName: {{ .Values.serviceAccount.name }}
+  # template:
+  #   spec:
+  #     serviceAccountName: {{ .Values.serviceaccount.name }}
