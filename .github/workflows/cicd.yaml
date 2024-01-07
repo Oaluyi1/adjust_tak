@@ -167,12 +167,12 @@ jobs:
           kubectl wait --for=condition=Ready node/minikube --timeout=5m
 
       
-      - name: update KUBECONFIG file
-        run: |
-          kubectl config set-context minikube --namespace=my-app
-          kubectl config get-contexts
-          kubectl config view --minify > kubeconfig-my-app
-          export KUBECONFIG=$(pwd)/kubeconfig-my-app
+      # - name: update KUBECONFIG file
+      #   run: |
+      #     kubectl config set-context minikube --namespace=my-app
+      #     kubectl config get-contexts
+      #     kubectl config view --minify > kubeconfig-my-app
+      #     export KUBECONFIG=$(pwd)/kubeconfig-my-app
       
       - name: Enable Minikube ingress
         run: |
