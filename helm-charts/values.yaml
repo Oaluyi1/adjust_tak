@@ -45,11 +45,16 @@ release:
 
 namespace:
   # enabled: true
-  name: 
+  name: my-app
 
-# serviceAccount:
-#   create: true
-#   name: my-serviceaccount
+serviceAccount:
+  create: true
+  name: my-serviceaccount
 
 # Replica count for the Deployment
-replicaCount: 3
+deployment:
+  replicas: 3
+
+  template:
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}

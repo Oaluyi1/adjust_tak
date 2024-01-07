@@ -7,7 +7,7 @@ metadata:
     app: {{ .Values.service.name }}-{{ .Values.version | default .Chart.AppVersion }}
     release: {{ .Release.Name }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels:
       app: {{ .Values.service.name }}
@@ -16,6 +16,7 @@ spec:
       labels:
         app: {{ .Values.service.name }}
     spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}  
       containers:
       - name: {{ .Values.service.name }}-container
         image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
