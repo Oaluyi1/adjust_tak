@@ -187,8 +187,6 @@ jobs:
           helm version
           kubectl create namespace my-app
           kubectl get namespaces
-          helm history my-release -n my-app
-          helm get manifest my-release -n my-app
           helm upgrade --install --debug my-release helm-charts --namespace my-app 
 
           # Wait for the pod to be ready
