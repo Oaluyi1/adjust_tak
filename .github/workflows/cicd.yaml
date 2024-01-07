@@ -184,7 +184,7 @@ jobs:
         run: |
           kubectl config current-context
           helm version
-          # kubectl create namespace my-app
+          kubectl create namespace my-app
           helm install --debug my-release helm-charts --namespace my-app
           helm get all my-release
 
