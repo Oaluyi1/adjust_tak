@@ -2,4 +2,4 @@ apiVersion: v2
 name: Adjust-Helm-Chart
 description: A Helm chart for deploying Python web application into Kubernetes
 version: 0.1.0
-appVersion: v0.1.1
+appVersion: v0.1.2
