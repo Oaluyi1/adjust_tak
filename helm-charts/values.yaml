@@ -47,9 +47,9 @@ namespace:
   # enabled: true
   name: my-app
 
-serviceaccount:
+serviceAccount:
   create: true
-  name: myserviceccount
+  name: my-serviceaccount
 
 # Replica count for the Deployment
 deployment:
