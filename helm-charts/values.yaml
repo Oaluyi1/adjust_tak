@@ -44,8 +44,8 @@ release:
   name: my-release
 
 namespace:
-  enabled: true
-  name: my-app
+  # enabled: true
+  name: 
 
 # serviceAccount:
 #   create: true
