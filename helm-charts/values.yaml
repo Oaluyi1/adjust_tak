@@ -9,10 +9,10 @@ image:
   containerPort: 5000
 resources:
   limits:
-    cpu: 2m
+    cpu: 20m
     memory: 10000Mi
   requests:
-    cpu: 2m
+    cpu: 20m
     memory: 10000Mi
 
 service: 
