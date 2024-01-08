@@ -15,13 +15,13 @@ apiVersion: extensions/v1beta1
 {{- end }}
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ .Values.ingress.name }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .Values.ingress.className }}
+  {{- if and .Values.ingress.name (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ .Values.ingress.name }}
   {{- end }}
   {{- if .Values.ingress.tls }}
   tls:
@@ -46,9 +46,9 @@ spec:
             backend:
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: {{ $fullName }}
+                name: {{ .Values.ingress.serviceName }}
                 port:
-                  number: {{ $svcPort }}
+                  number: {{ .Values.ingress.servicePort }}
               {{- else }}
               serviceName: {{ .Values.ingress.serviceName }}
               servicePort: {{ .Values.ingress.servicePort }}
