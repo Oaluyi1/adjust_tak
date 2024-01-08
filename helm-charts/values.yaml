@@ -13,7 +13,7 @@ resources:
     cpu: 90000m  # 0.2 cores
     memory: 7000Mi
   requests:
-    cpu: 908000m  # 0.1 cores
+    cpu: 90000m  # 0.1 cores
     memory: 7000Mi
 
 service: 
