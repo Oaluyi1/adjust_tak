@@ -8,6 +8,9 @@ on:
 jobs:
   lint-code:
     runs-on: ubuntu-latest
+    
+    env:
+      DOCKER_IMAGE: 2470/home_task:latest
 
     steps:
       - name: Checkout Repository
@@ -128,6 +131,9 @@ jobs:
     steps:
       - name: Create kind cluster
         run: kind create cluster
+      
+      - name: Pull Docker Image
+        run: docker pull $DOCKER_IMAGE
 
       - name: Load Docker image into kind cluster
         run: kind load docker-image 2470/home_task:latest --name kind
