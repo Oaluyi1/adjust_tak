@@ -7,13 +7,14 @@ image:
   id: 
   pullPolicy: Always
   containerPort: 5000
+  
 resources:
   limits:
-    cpu: 4m
-    memory: 8192Mi
+    cpu: 200m  # 0.2 cores
+    memory: 512Mi
   requests:
-    cpu: 4m
-    memory: 8192Mi
+    cpu: 100m  # 0.1 cores
+    memory: 256Mi
 
 service: 
   name: hello
