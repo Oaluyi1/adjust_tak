@@ -4,17 +4,30 @@ image:
   registry: docker.io
   repository: 2470/home_task
   tag: latest
-  id: 
   pullPolicy: Always
-  containerPort: 5000
+  imagePullSecrets: []
+  nameOverride: ""
+  
+podAnnotations: {}
 
-resources:
-  limits:
-    cpu: 90000m  
-    memory: 7000Mi
-  requests:
-    cpu: 90000m  
-    memory: 7000Mi
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # limits:
+  #   cpu: 90000m  
+  #   memory: 7000Mi
+  # requests:
+  #   cpu: 90000m  
+  #   memory: 7000Mi
 
 service: 
   name: hello
@@ -49,14 +62,25 @@ namespace:
   # enabled: true
   name: my-app
 
+# Specifies whether a service account should be created
 serviceAccount:
   create: true
   name: my-serviceaccount
+  # Annotations to add to the service account
+  annotations: {}
 
 # Replica count for the Deployment
 deployment:
   replicas: 2
 
-  # template:
-  #   spec:
-  #     serviceAccountName: {{ .Values.serviceaccount.name }}
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
