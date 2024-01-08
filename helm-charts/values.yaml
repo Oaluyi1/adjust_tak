@@ -9,11 +9,11 @@ image:
   containerPort: 5000
 resources:
   limits:
-    cpu: 100m
-    memory: 90Mi
+    cpu: 4000Gi
+    memory: 4000Mi
   requests:
-    # cpu: "20m"   
-    memory: "90Mi"
+    cpu: 4000Gi   
+    memory: 4000Mi
 
 service: 
   name: hello

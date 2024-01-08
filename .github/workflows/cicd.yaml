@@ -164,7 +164,7 @@ jobs:
         run: |
           minikube status
           kubectl describe node minikube
-          kubectl wait --for=condition=Ready node/minikube --timeout=5m
+          # kubectl wait --for=condition=Ready node/minikube --timeout=5m
 
       
       # - name: update KUBECONFIG file
