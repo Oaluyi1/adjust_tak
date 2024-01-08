@@ -146,6 +146,7 @@ jobs:
           kind get clusters
           kind start
           kubectl config use-context kind-kind
+          kubectl run -it --rm --restart=Never --image=alpine dns-test -- nslookup kind-control-plane
           kubectl cluster-info
           # kubectl create namespace my-app
           helm upgrade --install --debug my-release helm-charts --namespace my-app
