@@ -20,6 +20,11 @@ spec:
       containers:
       - name: {{ .Values.service.name }}-container
         image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        volumeMounts:
+        - name: kube-api-access
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+          ports: 5000
+          readOnly: true
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
           - containerPort: {{ .Values.service.externalPort }}
@@ -33,3 +38,12 @@ spec:
           requests:
               cpu: {{ .Values.resources.requests.cpu }}
               memory: {{ .Values.resources.requests.memory }}
+      volumes:
+      - name: kube-api-access
+        projected:
+          sources:
+            - serviceAccountToken:
+                path: kube-api-access
+                expirationSeconds: 3607
+            - configMap:
+                name: kube-root-ca.crt
