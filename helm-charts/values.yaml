@@ -9,10 +9,10 @@ image:
 resources:
   limits:
     cpu: "4000m"  # 4 CPU
-    memory: 3072Mi
+    memory: 5000Mi
   requests:
-    cpu: "10m"   
-    memory: "2048Mi"
+    cpu: "20m"   
+    memory: "5000Mi"
 
 service: 
   name: hello
