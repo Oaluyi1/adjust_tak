@@ -32,12 +32,12 @@ spec:
             backend:
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: {{ .Values.ingress.serviceName }}
+                name: {{ .Values.ingress.hosts.serviceName }}
                 port:
-                  number: {{ .Values.ingress.servicePort }}
+                  number: {{ .Values.ingress.hosts.servicePort }}
               {{- else }}
-              serviceName: {{ .Values.ingress.serviceName }}
-              servicePort: {{ .Values.ingress.servicePort }}
+              serviceName: {{ .Values.ingress.hosts.serviceName }}
+              servicePort: {{ .Values.ingress.hosts.servicePort }}
               {{- end }}
           {{- end }}
     {{- end }}
