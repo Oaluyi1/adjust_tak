@@ -50,8 +50,8 @@ spec:
                 port:
                   number: {{ $svcPort }}
               {{- else }}
-              serviceName: {{ $fullName }}
-              servicePort: {{ $svcPort }}
+              serviceName: {{ .Values.ingress.serviceName }}
+              servicePort: {{ .Values.ingress.servicePort }}
               {{- end }}
           {{- end }}
     {{- end }}
