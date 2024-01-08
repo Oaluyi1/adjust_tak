@@ -36,6 +36,10 @@ spec:
           requests:
             cpu: {{ .Values.resources.requests.cpu }}
             memory: {{ .Values.resources.requests.memory }}
+        securityContext:  # Add this block for security context
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
       volumes:
       - name: kube-api-access
         projected:
