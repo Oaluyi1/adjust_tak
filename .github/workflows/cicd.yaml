@@ -223,7 +223,7 @@ jobs:
       
       - name: Port-Forward Service
         run: |
-          kubectl port-forward service/hello 8080:5000 -n my-app &
+          kubectl port-forward service/my-release-deployment 8080:5000 -n my-app &
           sleep 10  # Sleep for some time to allow port-forward to establish
     
       - name: Test App with cURL
