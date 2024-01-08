@@ -12,7 +12,7 @@ resources:
     cpu: 6m
     memory: 6000Mi
   requests:
-    cpu: 6m
+    cpu: 10m
     memory: 6000Mi
 
 service: 
