@@ -52,7 +52,19 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-
+      
+      - name: Ensure Docker daemon is running
+        run: |
+          # Check if Docker daemon is running
+          DOCKER_STATUS=$(docker info > /dev/null 2>&1 && echo "running" || echo "not running")
+            
+          if [ "$DOCKER_STATUS" != "running" ]; then
+            echo "Docker daemon is not running. Starting Docker..."
+            sudo systemctl start docker
+          else
+            echo "Docker daemon is already running."
+          fi
+  
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
