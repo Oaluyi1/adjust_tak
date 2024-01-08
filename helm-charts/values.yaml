@@ -10,11 +10,11 @@ image:
 
 resources:
   limits:
-    cpu: 10000m  # 0.2 cores
-    memory: 6000Mi
+    cpu: 90000m  # 0.2 cores
+    memory: 7000Mi
   requests:
-    cpu: 108000m  # 0.1 cores
-    memory: 6000Mi
+    cpu: 908000m  # 0.1 cores
+    memory: 7000Mi
 
 service: 
   name: hello
