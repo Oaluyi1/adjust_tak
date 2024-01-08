@@ -143,6 +143,10 @@ jobs:
 
       - name: Deploy with Helm to kind cluster
         run: |
+          kind get clusters
+          kind start
+          kubectl config use-context kind-kind
+          kubectl cluster-info
           # kubectl create namespace my-app
           helm upgrade --install --debug my-release helm-charts --namespace my-app
           kubectl get events --sort-by=.metadata.creationTimestamp
