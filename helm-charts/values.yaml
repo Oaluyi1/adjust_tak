@@ -9,7 +9,7 @@ image:
   containerPort: 5000
 resources:
   limits:
-    cpu: 6
+    cpu: 6m
     memory: 6000Mi
   requests:
     cpu: 6m
