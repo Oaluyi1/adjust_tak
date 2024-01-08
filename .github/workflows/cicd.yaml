@@ -4,46 +4,42 @@ on:
   push:
     branches:
       - feature/adjust_tak
-
 jobs:
   lint-code:
     runs-on: ubuntu-latest
-    
-    env:
-      DOCKER_IMAGE: 2470/home_task:latest
-
+  
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-
+  
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: 3.8
-
+    
       - name: Install Dependencies
         run: |
           pip install --no-cache-dir -r requirements.txt
           pip install --upgrade pip
           pip install flake8
           pip install black
-
+      
       - name: Debug installed packages
         run: |
           pip list
+        
 
       - name: Lint Code
         run: |
           flake8 .
           black --check . || true
-
+    
       - name: Display Linting Results
         run: flake8 . --show-source --statistics
 
   test:
     runs-on: ubuntu-latest
     needs: lint-code
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -52,19 +48,7 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      
-      - name: Ensure Docker daemon is running
-        run: |
-          # Check if Docker daemon is running
-          DOCKER_STATUS=$(docker info > /dev/null 2>&1 && echo "running" || echo "not running")
-            
-          if [ "$DOCKER_STATUS" != "running" ]; then
-            echo "Docker daemon is not running. Starting Docker..."
-            sudo systemctl start docker
-          else
-            echo "Docker daemon is already running."
-          fi
-  
+
       - name: Install Dependencies
         run: |
           pip install -r requirements.txt
@@ -75,7 +59,7 @@ jobs:
 
   analyse-Dockerfile:
     runs-on: ubuntu-latest
-    needs: [lint-code, test]
+    needs: [lint-code,test]
 
     steps:
       - name: Checkout Repository
@@ -92,14 +76,14 @@ jobs:
   build-Docker-image:
     runs-on: ubuntu-latest
     needs: analyse-Dockerfile
-
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-
+  
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -116,8 +100,8 @@ jobs:
             org.opencontainers.image.title=my-app
             org.opencontainers.image.description=Docker image for the app
           tags: 2470/home_task:latest
-        id: docker_build
-
+        id: docker_build    
+      
       - name: Run Security Scan
         uses: aquasecurity/trivy-action@master
         with:
@@ -125,61 +109,129 @@ jobs:
           format: 'table'
           exit-code: '0'
 
-  setup-kind:
+  start-minikube:
     runs-on: ubuntu-latest
     needs: [build-Docker-image]
-
+    
     steps:
-      - name: Install kind
+      - name: install kubectl
         run: |
-          curl -Lo kind https://kind.sigs.k8s.io/dl/v0.12.0/kind-linux-amd64
-          chmod +x kind
-          sudo mv kind /usr/local/bin/
+          curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.6.0/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
 
-  deploy-kind-cluster:
+      - name: Install Minikube
+        run: |
+          curl -LO https://github.com/kubernetes/minikube/releases/latest/minikube-linux-amd64
+          sudo install minikube-linux-amd64 /usr/local/bin/minikube
+        
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+  
+  install-helm:
     runs-on: ubuntu-latest
-    needs: setup-kind
-
+    needs: start-minikube
+        
     steps:
-      - name: Create kind cluster
-        run: kind create cluster
-      
-      - name: Pull Docker Image
-        run: docker pull 2470/home_task:latest
-
-      - name: Load Docker image into kind cluster
-        run: kind load docker-image 2470/home_task:latest --name kind
-
-      - name: Set kubeconfig context
-        run: kind get kubeconfig --name kind --internal > $HOME/.kube/config
-
-      - name: Deploy with Helm to kind cluster
+      - name: Install Helm
         run: |
-          # kind get clusters
-          # kind start
-          # kubectl config use-context kind-kind
-          kubectl logs -n kube-system -l k8s-app=kube-dns
-          kubectl run -it --rm --restart=Never --image=alpine dns-test -- nslookup kind-control-plane
-          kubectl cluster-info
-          # kubectl create namespace my-app
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
+    
+  helm-deploy:
+    runs-on: ubuntu-latest
+    needs: install-helm
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+    
+      - name: Start Minikube
+        uses: medyagh/setup-minikube@latest
+        id: minikube
+        with:
+          cache: false
+          minikube-version: "latest"
+          driver: docker
+          container-runtime: containerd
+          kubernetes-version: v1.27.9
+          addons: "docker-registry ingress"
+          wait: all
+      
+      - name: Add a node
+        run: minikube node add
+            
+      - name: Wait for Minikube to be Ready
+        run: |
+          minikube status
+          kubectl describe node minikube
+          # kubectl wait --for=condition=Ready node/minikube --timeout=5m
+
+      
+      # - name: update KUBECONFIG file
+      #   run: |
+      #     kubectl config set-context minikube --namespace=my-app
+      #     kubectl config get-contexts
+      #     kubectl config view --minify > kubeconfig-my-app
+      #     export KUBECONFIG=$(pwd)/kubeconfig-my-app
+      
+      - name: Enable Minikube ingress
+        run: |
+          minikube addons enable ingress
+          minikube addons enable dashboard
+          # minikube addons enable metrics-server	
+
+      - name: Deploy with Helm to minikube
+        run: |
+          kubectl config current-context
+          helm version
+          kubectl create namespace my-app
+          kubectl get namespaces
           helm upgrade --install --debug my-release helm-charts --namespace my-app
           kubectl get events --sort-by=.metadata.creationTimestamp
 
-      - name: Try the cluster!
+          # # Wait for the pod to be ready
+          # set -e
+          # seconds=0
+          # max_seconds=600  # Adjust the maximum waiting time as needed
+
+          # while [ "$seconds" -lt "$max_seconds" ]; do
+          #   pod_status=$(kubectl get pods -n my-app -o jsonpath='{.status.phase}')
+          #   if [ "$pod_status" == "Failed" ] || [ "$pod_status" == "Pending" ]; then
+          #     echo "Waiting for the pod to be ready. Elapsed time: $seconds seconds. Current status: $pod_status"
+          #     echo "Pod failed to start or is still pending. Exiting..."
+          #     exit 1
+          #   elif [ "$pod_status" == "Running" ]; then
+          #     echo "Pod is running!"
+          #     exit 0
+          #   else
+          #     echo "Waiting for the pod to be ready. Elapsed time: $seconds seconds."
+          #     sleep 10
+          #     seconds=$((seconds+10))
+          #   fi
+          # done
+
+          # echo "Timeout: Pod did not become ready within the allotted time."
+          # exit 1
+
+      
+      - name: Try the cluster !
         run: |
           kubectl get pods -n my-app
           kubectl describe pod -n my-app
           kubectl get deployments -n my-app
           kubectl get services -n my-app
-
+      
       - name: Port-Forward Service
         run: |
           kubectl port-forward service/my-release-deployment 8080:5000 -n my-app &
           sleep 10  # Sleep for some time to allow port-forward to establish
-
+    
       - name: Test App with cURL
         run: |
-          set -e  # Exit on any error
+          set -e  # Exit on any error  
           # Retry up to 3 times with a 5-second delay
           for i in {1..3}; do
             curl -f http://localhost:8080/hello || true  # Silence curl output
@@ -189,7 +241,7 @@ jobs:
             fi
             sleep 5
           done
-
+  
           # App not accessible after retries
           echo "App is not accessible after retries"
           exit 2  # Specific exit code for test failure
