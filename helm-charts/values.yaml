@@ -54,7 +54,7 @@ serviceAccount:
 
 # Replica count for the Deployment
 deployment:
-  replicas: 3
+  replicas: 2
 
   # template:
   #   spec:
