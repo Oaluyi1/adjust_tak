@@ -19,7 +19,7 @@ spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
       containers:
       - name: {{ .Values.service.name }}-container
-        image: {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         volumeMounts:
         - name: kube-api-access
           mountPath: /var/run/secrets/kubernetes.io/serviceaccount
