@@ -133,7 +133,7 @@ jobs:
         run: kind create cluster
       
       - name: Pull Docker Image
-        run: docker pull $DOCKER_IMAGE
+        run: docker pull 2470/home_task:latest
 
       - name: Load Docker image into kind cluster
         run: kind load docker-image 2470/home_task:latest --name kind
