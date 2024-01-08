@@ -10,10 +10,10 @@ image:
 
 resources:
   limits:
-    cpu: 200m  # 0.2 cores
+    cpu: 2000m  # 0.2 cores
     memory: 8192Mi
   requests:
-    cpu: 100m  # 0.1 cores
+    cpu: 2000m  # 0.1 cores
     memory: 8192Mi
 
 service: 
