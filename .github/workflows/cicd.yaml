@@ -189,7 +189,7 @@ jobs:
           helm version
           kubectl create namespace my-app
           kubectl get namespaces
-          helm upgrade --install --debug my-release helm-charts --namespace my-app
+          helm install --debug my-release helm-charts -f helm-charts/values.yaml --namespace my-app
           kubectl get events --sort-by=.metadata.creationTimestamp
 
           # # Wait for the pod to be ready
