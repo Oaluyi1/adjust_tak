@@ -22,12 +22,12 @@ securityContext: {}
   # runAsUser: 1000
 
 resources: {}
-  # limits:
-  #   cpu: 90000m  
-  #   memory: 7000Mi
-  # requests:
-  #   cpu: 90000m  
-  #   memory: 7000Mi
+limits:
+  cpu: 90000m  
+  memory: 7000Mi
+requests:
+  cpu: 90000m  
+  memory: 7000Mi
 
 service: 
   name: hello
