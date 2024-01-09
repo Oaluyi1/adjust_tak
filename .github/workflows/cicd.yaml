@@ -126,5 +126,5 @@ jobs:
         run: |
           aws eks --region eu-west-2 update-kubeconfig --name adjust_app
           kubectl config current-context
-          helm install --debug my-release helm-charts -f helm-charts/values.yaml --namespace my-app
+          helm install --debug my-release adjust_tak/helm-charts -f helm-charts/values.yaml --namespace my-app
           kubectl get events --sort-by=.metadata.creationTimestamp
