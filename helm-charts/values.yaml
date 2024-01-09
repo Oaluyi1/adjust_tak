@@ -39,7 +39,7 @@ service:
 #Ingress configuration
 ingress:
   enabled: true
-  name: hello-ingress
+  name: ""
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
