@@ -160,8 +160,8 @@ jobs:
           addons: "docker-registry ingress"
           wait: all
       
-      - name: Add a node
-        run: minikube node add
+      # - name: Add a node
+      #   run: minikube node add
             
       - name: Wait for Minikube to be Ready
         run: |

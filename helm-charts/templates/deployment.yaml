@@ -40,7 +40,7 @@ spec:
           # requests:
           #   cpu: {{ .Values.resources.requests.cpu }}
           #   memory: {{ .Values.resources.requests.memory }}
-      nodeSelector:
+      nodeSelector:w
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.affinity }}
