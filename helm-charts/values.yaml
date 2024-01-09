@@ -23,11 +23,11 @@ securityContext: {}
 
 resources: {}
 limits:
-  # cpu: 60000m  
-  memory: 7000Mi
+  cpu: 2m  
+  memory: 4000Mi
 requests:
-  cpu: 60000m  
-  memory: 7000Mi
+  cpu: 2m  
+  memory: 4000Mi
 
 service: 
   name: hello
