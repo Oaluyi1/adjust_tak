@@ -19,3 +19,4 @@ spec:
               pathType: {{ .backend.pathType | quote }}
           {{- end }}
     {{- end }}
+{{- end }}
