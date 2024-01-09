@@ -43,7 +43,7 @@ ingress:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
-    - host: "*"
+    - host: adjust.local
       paths:
         - path: /hello
           backend:
