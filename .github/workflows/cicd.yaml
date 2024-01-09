@@ -127,6 +127,7 @@ jobs:
 
       - name: Deploy to EKS Cluster
         run: |
+          aws eks --region eu-west-2 create-nodegroup --cluster-name adjust_app --nodegroup-name adjust_node_group --subnets subnet-07d7761557699ed2b --instance-types t3.medium --min-size 2 --max-size 2 --desired-size 2
           aws eks --region eu-west-2 update-kubeconfig --name adjust_app
           kubectl config current-context
           helm upgrade --install --debug my-release helm-charts -f helm-charts/values.yaml --namespace my-app
