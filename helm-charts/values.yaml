@@ -38,7 +38,7 @@ service:
 
 #Ingress configuration
 ingress:
-  enabled: true
+  enabled: false
   name: ""
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
