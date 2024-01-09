@@ -37,25 +37,25 @@ service:
   enabled: true
 
 #Ingress configuration
-ingress: 
+ingress:
   enabled: true
   name: hello-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
   hosts:
-    - host: adjust.local
+    - host: "*"
       paths:
         - path: /hello
           backend:
             serviceName: hello
             servicePort: 5000
-            pathType: Prefix
+          pathType: Prefix
         - path: /health
           backend:
             serviceName: hello
             servicePort: 5000
-            pathType: Prefix
-            
+          pathType: Prefix
+
 # Release information
 release:
   name: my-release
