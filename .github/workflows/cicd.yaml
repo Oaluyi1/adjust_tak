@@ -168,10 +168,10 @@ jobs:
       
       - name: Try the cluster !
         run: |
-          kubectl get pods -n my_app
-          kubectl describe pod -n my_app
-          kubectl get deployments -n my_app
-          kubectl get services -n my_app
+          kubectl get pods -n hello-python-app
+          kubectl describe pod -n hello-python-app
+          kubectl get deployments -n hello-python-app
+          kubectl get services -n hello-python-app
       
       # - name: Port-Forward Service
       #   run: |
