@@ -135,7 +135,7 @@ jobs:
           # fi
         
             # Create the namespace
-          kubectl create namespace hello-python-app
+          # kubectl create namespace hello-python-app
         
           # Deploy or upgrade with Helm
           helm install --create-namespace --debug my-release helm-charts -f helm-charts/values.yaml --namespace hello-python-app --set createNamespace=false
