@@ -135,10 +135,10 @@ jobs:
           fi
         
             # Create the namespace
-          kubectl create namespace hello-app
+          # kubectl create namespace hello-app
         
           # Deploy or upgrade with Helm
-          helm install --debug my-release helm-charts -f helm-charts/values.yaml --namespace hello-app
+          helm install --create-namespace --debug my-release helm-charts -f helm-charts/values.yaml --namespace hello-app
         
 
           # Wait for the pod to be ready
