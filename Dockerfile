@@ -1,5 +1,5 @@
 # official Python image
-FROM python:3.10-buster
+FROM python:3.10.5-buster
 
 # Arguments
 ARG USERNAME=ozzy
