@@ -130,12 +130,12 @@ jobs:
           aws eks --region eu-west-2 update-kubeconfig --name adjust_app
         
           # Check if namespace exists before deleting
-          if kubectl get namespace my-app; then
-          kubectl delete namespace my-app
+          if kubectl get namespace my_app; then
+          kubectl delete namespace my_app
           fi
         
             # Create the namespace
-          # kubectl create namespace my_app
+          kubectl create namespace my_app
         
           # Deploy or upgrade with Helm
           helm install --debug my-release helm-charts -f helm-charts/values.yaml --namespace my_app
