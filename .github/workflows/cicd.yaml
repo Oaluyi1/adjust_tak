@@ -128,10 +128,18 @@ jobs:
       - name: Deploy to EKS Cluster
         run: |
           aws eks --region eu-west-2 update-kubeconfig --name adjust_app
-          # kubectl delete namespace my-app
-          kubectl create namespace my-app
-          kubectl config current-context
-          helm install --debug my-release helm-charts -f helm-charts/values.yaml --namespace my_app
+        
+          # Check if namespace exists before deleting
+          if kubectl get namespace my-app; then
+          kubectl delete namespace my-app
+          fi
+        
+            # Create the namespace
+          # kubectl create namespace my_app
+        
+          # Deploy or upgrade with Helm
+          helm upgrade --debug my-release helm-charts -f helm-charts/values.yaml --namespace my_app
+        
 
           # Wait for the pod to be ready
           # set -e
