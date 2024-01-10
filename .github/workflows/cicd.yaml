@@ -126,19 +126,24 @@ jobs:
           aws-region: ${{ secrets.REGION }}
 
       - name: Deploy to EKS Cluster
-        run: |      
+        run: | 
+          aws eks --region eu-west-2 update-kubeconfig --name adjust_app
+          kubectl get namespaces
+          # helm uninstall --namespace hello-python-app my-release
+          # helm list -n hello-python-app
+
           # Check if namespace exists before deleting
           if kubectl get namespace hello-python-app; then
           kubectl delete namespace hello-python-app
           fi
-        
+          helm list -n hello-python-app
+
             # Create the namespace
           # kubectl create namespace hello-python-app
           
-          aws eks --region eu-west-2 update-kubeconfig --name adjust_app
           sleep 60s
           # Deploy or upgrade with Helm
-          helm upgrade --install --create-namespace --debug my-release helm-charts -f helm-charts/values.yaml --namespace hello-python-app --set createNamespace=false
+          helm upgrade --install --create-namespace --debug my-release helm-charts -f helm-charts/values.yaml --namespace hello-python-app
           
           # Wait for the pod to be ready
           # set -e
