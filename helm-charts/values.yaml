@@ -62,7 +62,7 @@ release:
 
 namespace:
   enabled: true
-  name: my-app
+  name: default
 
 # Specifies whether a service account should be created
 serviceAccount:
