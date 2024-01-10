@@ -33,5 +33,5 @@ COPY . /app/
 EXPOSE 5000
 
 # Run the app using Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app.app:app"] && ["/app/healthcheck.sh"]
-# CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app.app:app"]
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:5000 app.app:app && /app/healthcheck.sh"]
+# CMD ["gunicorn", "--bind", "0CMD.0.0.0:5000", "app.app:app"]
