@@ -130,8 +130,8 @@ jobs:
           aws eks --region eu-west-2 update-kubeconfig --name adjust_app
         
           # Check if namespace exists before deleting
-          if kubectl get namespace my_app; then
-          kubectl delete namespace my_app
+          if kubectl get namespace hello-app; then
+          kubectl delete namespace hello-app
           fi
         
             # Create the namespace
