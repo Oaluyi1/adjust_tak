@@ -6,7 +6,6 @@ image:
   tag: latest
   pullPolicy: Always
   imagePullSecrets: []
-  nameOverride: ""
   
 podAnnotations: {}
 
