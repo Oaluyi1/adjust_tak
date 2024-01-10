@@ -94,6 +94,6 @@ label:
 
 annotate:
   release: my-release
-  namespace: hello-app
+  namespace: python-hello-app
 
 
