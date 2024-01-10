@@ -62,7 +62,7 @@ release:
 
 namespace:
   enabled: true
-  name: my_app
+  name: hello-app
 
 # Specifies whether a service account should be created
 serviceAccount:
