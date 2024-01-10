@@ -4,7 +4,7 @@ kind: Namespace
 metadata:
   name: {{ .Values.namespace.name }}
   labels:
-    managed-by: {{ .Values.label.app.kubernetes.io/managed-by }}
+    managed: {{ .Values.label.app.kubernetes.io/managed-by }}
     release-name: {{ .Values.annotate.meta.helm.sh/release-name }}
     release-namespace: {{ .Values.annotate.meta.helm.sh/release-namespace }}
   annotations:
