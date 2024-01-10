@@ -1,20 +1,21 @@
-# Use the official Python image
+# official Python image
 FROM python:3.10-buster
 
-# Arguments for creating user
+# Arguments
 ARG USERNAME=ozzy
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
-# Create the user and set up sudo
+# Create the user
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
     && apt-get update \
     && apt-get install -y sudo \
-    && echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
-    && chmod 0440 /etc/sudoers.d/$USERNAME
+    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME \
+    && rm -rf /var/lib/apt/lists/*
 
-# Switch to the non-root user
+# Set the default user
 USER $USERNAME
 
 # Set the working directory to /app
