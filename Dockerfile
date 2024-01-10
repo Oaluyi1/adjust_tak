@@ -1,7 +1,23 @@
-# official Python image
+# Use the official Python image
 FROM python:3.10-buster
 
-#set the working directory to /app
+# Arguments
+ARG USERNAME=ozzy
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+# Create the user and set up sudo
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && apt-get update \
+    && apt-get install -y sudo \
+    && echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
+
+# Switch to the non-root user
+USER $USERNAME
+
+# Set the working directory to /app
 WORKDIR /app
 
 # Copy only the requirements file into the container at /app
@@ -13,12 +29,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the current directory contents into the container at /app
 COPY . /app/
 
-# Set the user
-USER nonrootuser
-
-#expose the app port
+# Expose the app port
 EXPOSE 5000
 
-#run the app.py when the container launches
-#CMD ["python", "app/app.py"]
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app.app:app"]
+# Run the app using Gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app.app:app"] && ["/app/healthcheck.sh"]
+# CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app.app:app"]
