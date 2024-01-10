@@ -130,12 +130,12 @@ jobs:
           aws eks --region eu-west-2 update-kubeconfig --name adjust_app
         
           # Check if namespace exists before deleting
-          if kubectl get namespace hello-python-app; then
-          kubectl delete namespace hello-python-app
-          fi
+          # if kubectl get namespace hello-python-app; then
+          # kubectl delete namespace hello-python-app
+          # fi
         
             # Create the namespace
-          # kubectl create namespace hello-python-app
+          kubectl create namespace hello-python-app
         
           # Deploy or upgrade with Helm
           helm install --create-namespace --debug my-release helm-charts -f helm-charts/values.yaml --namespace hello-python-app --set createNamespace=false
