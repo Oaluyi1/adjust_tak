@@ -20,10 +20,6 @@ spec:
       containers:
       - name: {{ .Values.service.name }}-container
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
-        volumeMounts:
-        - name: kube-api-access
-          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-          readOnly: true
         ports:
         - name: http
           containerPort: {{ .Values.service.externalPort }}
