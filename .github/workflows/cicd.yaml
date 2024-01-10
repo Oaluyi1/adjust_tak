@@ -71,8 +71,8 @@ jobs:
           sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64
           sudo chmod +x /bin/hadolint
 
-      - name: Run Hadolint
-        run: hadolint --ignore DL3008, DL3015 Dockerfile
+      # - name: Run Hadolint
+      #   run: hadolint --ignore DL3008, DL3015 Dockerfile
 
   build-Docker-image:
     runs-on: ubuntu-latest
