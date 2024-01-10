@@ -61,7 +61,7 @@ release:
   name: my-release
 
 namespace:
-  # enabled: true
+  enabled: true
   name: my-app
 
 # Specifies whether a service account should be created
