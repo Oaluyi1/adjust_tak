@@ -129,7 +129,7 @@ jobs:
         run: |
           aws eks --region eu-west-2 update-kubeconfig --name adjust_app
           kubectl delete namespace my-app
-          kubectl create namespace my-app
+          # kubectl create namespace my-app
           kubectl config current-context
           helm upgrade --install --debug my-release helm-charts -f helm-charts/values.yaml
 
