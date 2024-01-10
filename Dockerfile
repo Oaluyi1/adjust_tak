@@ -9,6 +9,7 @@ ARG USER_GID=$USER_UID
 # Create the user
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    # hadolint ignore=DL3008,DL3015
     && apt-get update \
     && apt-get install -y --no-install-recommends sudo \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
