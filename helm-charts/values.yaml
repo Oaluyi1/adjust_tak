@@ -90,10 +90,10 @@ affinity: {}
 tls: []
 
 label:   
-  app.kubernetes.io/managed-by: Helm
+  managed: Helm
 
 annotate:
-  meta.helm.sh/release-name: my-release
-  meta.helm.sh/release-namespace: hello-app
+  release-name: my-release
+  release-namespace: hello-app
 
 
