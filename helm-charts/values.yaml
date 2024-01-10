@@ -93,7 +93,7 @@ label:
   managed: Helm
 
 annotate:
-  release-name: my-release
-  release-namespace: hello-app
+  release: my-release
+  namespace: hello-app
 
 

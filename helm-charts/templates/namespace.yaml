@@ -5,8 +5,8 @@ metadata:
   name: {{ .Values.namespace.name }}
   labels:
     app.kubernetes.io/managed-by: {{ .Values.label.managed }}
-    meta.helm.sh/release-name: {{ .Values.annotate.release-name }}
-    meta.helm.sh/release-namespace: {{ .Values.annotate.release-namespace }}
+    meta.helm.sh/release-name: {{ .Values.annotate.release }}
+    meta.helm.sh/release-namespace: {{ .Values.annotate.namespace }}
   annotations:
     debug: "This namespace is being created."
 {{- end }}
