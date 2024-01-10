@@ -88,3 +88,12 @@ tolerations: []
 affinity: {}
 
 tls: []
+
+label:   
+  app.kubernetes.io/managed-by: Helm
+
+annotate:
+  meta.helm.sh/release-name: my-release
+  meta.helm.sh/release-namespace: hello-app
+
+
