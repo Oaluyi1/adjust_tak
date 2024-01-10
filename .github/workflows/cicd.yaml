@@ -139,7 +139,7 @@ jobs:
           helm list -n hello-python-app
 
             # Create the namespace
-          # kubectl create namespace hello-python-app
+          kubectl create namespace hello-python-app
           
           sleep 60s
           # Deploy or upgrade with Helm
