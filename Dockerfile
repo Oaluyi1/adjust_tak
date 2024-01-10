@@ -1,7 +1,7 @@
 # Use the official Python image
 FROM python:3.10-buster
 
-# Arguments
+# Arguments for creating user
 ARG USERNAME=ozzy
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
