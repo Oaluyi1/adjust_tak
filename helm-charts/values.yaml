@@ -4,7 +4,7 @@ image:
   registry: docker.io
   repository: 2470/home_task
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   imagePullSecrets: []
   nameOverride: ""
   
