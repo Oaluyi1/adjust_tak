@@ -16,7 +16,7 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the default user
-USER $USERNAME
+USER $USER_UID:$USER_GID
 
 # Set the working directory to /app
 WORKDIR /app
