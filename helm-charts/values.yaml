@@ -40,9 +40,9 @@ ingress:
   enabled: false
   name: ""
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    ingress.kubernetes.io/rewrite-target: /
   hosts:
-    - host: adjust.local
+    - host: 
       paths:
         - path: /hello
           backend:
