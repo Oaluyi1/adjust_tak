@@ -146,9 +146,9 @@ jobs:
           helm install --debug my-release helm-charts -f helm-charts/values.yaml --namespace hello-python-app
           
           # Wait for the pod to be ready
-          # set -e
-          # seconds=0
-          # max_seconds=600  # Adjust the maximum waiting time as needed
+          set -e
+          seconds=0
+          max_seconds=600  # Adjust the maximum waiting time as needed
 
           # while [ "$seconds" -lt "$max_seconds" ]; do
           #   pod_status=$(kubectl get pods -n my-app -o jsonpath='{.status.phase}')
