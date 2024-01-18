@@ -42,7 +42,6 @@ ingress:
   annotations:
     ingress.kubernetes.io/rewrite-target: /
   hosts:
-    - host: 
       paths:
         - path: /hello
           backend:
