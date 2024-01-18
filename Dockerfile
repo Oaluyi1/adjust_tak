@@ -1,10 +1,10 @@
-# official Python image
+# Official Python image
 FROM python:3.10.5-buster
 
 # Arguments
-ARG USERNAME=ozzy
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
+ARG USERNAME=nonrootuser
 
 # Create the user
 RUN groupadd --gid $USER_GID $USERNAME \
@@ -35,4 +35,3 @@ EXPOSE 5000
 
 # Run the app using Gunicorn
 CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:5000 app.app:app && app/apphealthy.sh"]
-# CMD ["gunicorn", "--bind", "0CMD.0.0.0:5000", "app.app:app"]
