@@ -20,13 +20,13 @@ securityContext:
   runAsNonRoot: true
   runAsUser: 1000
 
-resources: {}
-# limits:
-#   cpu: 50m
-#   memory: 700Mi
-# requests:
-#   cpu: 50m
-#   memory: 512Mi
+resources: 
+limits:
+  cpu: 50m
+  memory: 700Mi
+requests:
+  cpu: 50m
+  memory: 512Mi
 
 service: 
   name: hello
