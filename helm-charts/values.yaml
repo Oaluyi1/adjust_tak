@@ -22,10 +22,10 @@ securityContext:
 
 resources: {}
 limits:
-  # cpu: 2m  
+  cpu: 50m  
   memory: 700Mi
 requests:
-  cpu: 60m  
+  cpu: 50m  
   memory: 512Mi
 
 service: 
