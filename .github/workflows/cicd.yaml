@@ -141,7 +141,7 @@ jobs:
             # Create the namespace
           kubectl create namespace hello-python-app
           
-          sleep 60s
+          sleep 70s
           # Deploy or upgrade with Helm
           helm install --debug my-release helm-charts -f helm-charts/values.yaml --namespace hello-python-app
           
