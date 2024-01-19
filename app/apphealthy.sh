@@ -1,9 +1,11 @@
 #!/bin/bash
 
-if [ "$(ps aux | grep -c gunicorn)" -lt 2 ]; then
+HEALTH_CHECK_ENDPOINT="http://localhost:5000/health"
+
+if curl --silent --fail "$HEALTH_CHECK_ENDPOINT"; then
+  echo "App is healthy"
+  exit 0
+else
   echo "App is unhealthy"
   exit 1
 fi
-
-echo "App is healthy"
-exit 0
