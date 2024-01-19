@@ -24,9 +24,9 @@ spec:
         - name: http
           containerPort: {{ .Values.service.externalPort }}
           protocol: TCP
-        env:
-        - name: ENV_VARIABLE_NAME
-          value: "Dev"
+        # env:
+        # - name: ENV_VARIABLE_NAME
+        #   value: "Dev"
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
