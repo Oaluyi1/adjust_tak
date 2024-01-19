@@ -30,6 +30,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Install Gunicorn
 RUN pip install gunicorn
 
+RUN which gunicorn
+
 # Copy the current directory contents into the container at /app
 COPY . /app/
 
