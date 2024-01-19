@@ -25,7 +25,7 @@ limits:
   #cpu: 50m
   memory: 512Mi
 requests:
-  cpu: 50m
+  cpu: 20m
   memory: 512Mi
 
 service: 
