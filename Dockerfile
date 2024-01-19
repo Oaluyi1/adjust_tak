@@ -30,8 +30,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Install Gunicorn
 RUN pip install gunicorn
 
-RUN which gunicorn
-
 # Copy the current directory contents into the container at /app
 COPY . /app/
 
@@ -39,5 +37,5 @@ COPY . /app/
 EXPOSE 5000
 
 # Run the app using Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app && app/apphealthy.sh"]
-#CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:5000 app.app:app && app/apphealthy.sh"]
+#CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app && app/apphealthy.sh"]
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:5000 app:app && app/apphealthy.sh"]
