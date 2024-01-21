@@ -37,4 +37,4 @@ COPY . /app/
 EXPOSE 5000
 
 # Run the app using Gunicorn
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:5000 app:app && ./app/apphealthy.sh"]
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:5000 app.app:app && ./app/apphealthy.sh"]

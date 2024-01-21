@@ -21,7 +21,7 @@ spec:
       - name: {{ .Values.service.name }}-container
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         command: ["gunicorn"]
-        args: ["--bind 0.0.0.0:5000 app:app && app/apphealthy.sh"]
+        args: ["--bind 0.0.0.0:5000 app.app:app && app/apphealthy.sh"]
         ports:
         - name: http
           containerPort: {{ .Values.service.externalPort }}
