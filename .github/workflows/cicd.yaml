@@ -127,7 +127,7 @@ jobs:
 
       - name: Deploy to EKS Cluster
         run: | 
-          aws eks --region eu-west-2 update-kubeconfig --name adjust-app-cst
+          aws eks --region eu-west-2 update-kubeconfig --name adjust-app-ctr
           kubectl get namespaces
           # helm uninstall --namespace hello-python-app my-release
           # helm list -n hello-python-app
