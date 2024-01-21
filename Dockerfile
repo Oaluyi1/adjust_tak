@@ -34,8 +34,8 @@ RUN pip install gunicorn
 COPY . /app/
 
 # Expose the app port
-EXPOSE 5000
+# EXPOSE 5000
 
 # Run the app using Gunicorn
 #CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app && app/apphealthy.sh"]
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:5000 app:app && app/apphealthy.sh"]
+#CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:5000 app:app && app/apphealthy.sh"]

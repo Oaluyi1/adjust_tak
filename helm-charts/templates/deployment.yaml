@@ -20,13 +20,21 @@ spec:
       containers:
       - name: {{ .Values.service.name }}-container
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        command: ["gunicorn"]
+        args: ["--bind 0.0.0.0:5000 app:app && app/apphealthy.sh"]
         ports:
         - name: http
           containerPort: {{ .Values.service.externalPort }}
           protocol: TCP
-        # env:
-        # - name: ENV_VARIABLE_NAME
-        #   value: "Dev"
+        
+        livenessProbe:
+            httpGet:
+              path: /hello
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -36,7 +44,7 @@ spec:
           # requests:
           #   cpu: {{ .Values.resources.requests.cpu }}
           #   memory: {{ .Values.resources.requests.memory }}
-      nodeSelector:w
+      nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.affinity }}
