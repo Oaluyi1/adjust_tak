@@ -36,14 +36,14 @@ spec:
             path: /health
             port: http
         resources:
-          {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-          # limits:
-          #   cpu: {{ .Values.resources.limits.cpu }}
-          #   memory: {{ .Values.resources.limits.memory }}
-          # requests:
-          #   cpu: {{ .Values.resources.requests.cpu }}
-          #   memory: {{ .Values.resources.requests.memory }}
+      #     {{- toYaml .Values.resources | nindent 12 }}
+      # {{- with .Values.nodeSelector }}
+          limits:
+            cpu: {{ .Values.resources.limits.cpu }}
+            memory: {{ .Values.resources.limits.memory }}
+          requests:
+            cpu: {{ .Values.resources.requests.cpu }}
+            memory: {{ .Values.resources.requests.memory }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
