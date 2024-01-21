@@ -28,13 +28,13 @@ spec:
           protocol: TCP
         
         livenessProbe:
-            httpGet:
-              path: /hello
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: http
+          httpGet:
+            path: /hello
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
         resources:
           {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
