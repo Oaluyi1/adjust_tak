@@ -22,11 +22,11 @@ securityContext:
 
 resources: 
 limits:
-  cpu: 500m
-  memory: 512Mi
+  #cpu: 500m
+  memory: 700Mi
 requests:
-  cpu: 100m
-  memory: 256Mi
+  cpu: 10m
+  memory: 512Mi
 
 service: 
   name: hello
@@ -38,21 +38,24 @@ service:
 #Ingress configuration
 ingress:
   enabled: false
-  name: ""
+  name: hello-python-app
   annotations:
-    ingress.kubernetes.io/rewrite-target: /
+    annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 5000}]'
   hosts:
       paths:
         - path: /hello
           backend:
-            serviceName: hello
+            serviceName: app-service
             servicePort: 5000
           pathType: Prefix
-        - path: /health
-          backend:
-            serviceName: hello
-            servicePort: 5000
-          pathType: Prefix
+        # - path: /health
+        #   backend:
+        #     serviceName: hello
+        #     servicePort: 5000
+        #   pathType: Prefix
 
 # Release information
 release:

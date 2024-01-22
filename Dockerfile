@@ -30,6 +30,15 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Install Gunicorn
 RUN pip install gunicorn
 
+# Install Helm
+RUN apt-get update && \
+    apt-get install -y apt-transport-https gnupg && \
+    curl -fsSL https://baltocdn.com/helm/signing.asc | gpg --dearmor -o /usr/share/keyrings/helm-archive-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/helm-archive-keyring.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable.list > /dev/null && \
+    apt-get update && \
+    apt-get install -y helm && \
+    rm -rf /var/lib/apt/lists/*
+
 # Copy the current directory contents into the container at /app
 COPY . /app/
 

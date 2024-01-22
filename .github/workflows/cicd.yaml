@@ -125,12 +125,20 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_PASSWORD }}
           aws-region: ${{ secrets.REGION }}
 
+      - name: Deploy ALB Ingress Controller
+        run: |
+          kubectl apply -k "github.com/kubernetes-sigs/aws-alb-ingress-controller/deploy/kubernetes/overlays/e2e/?ref=release/v2.3.0"
+          
+          # Wait for the ALB Ingress Controller to be ready
+          kubectl wait --namespace kube-system \
+            --for=condition=ready pod \
+            --selector=app.kubernetes.io/name=alb-ingress-controller \
+            --timeout=120s
+
       - name: Deploy to EKS Cluster
         run: | 
           aws eks --region eu-west-2 update-kubeconfig --name adjust-app-ctr
           kubectl get namespaces
-          # helm uninstall --namespace hello-python-app my-release
-          # helm list -n hello-python-app
 
           # Check if namespace exists before deleting
           if kubectl get namespace hello-python-app; then
@@ -150,24 +158,24 @@ jobs:
           seconds=0
           max_seconds=600  # Adjust the maximum waiting time as needed
 
-          # while [ "$seconds" -lt "$max_seconds" ]; do
-          #   pod_status=$(kubectl get pods -n my-app -o jsonpath='{.status.phase}')
-          #   if [ "$pod_status" == "Failed" ] || [ "$pod_status" == "Pending" ]; then
-          #     echo "Waiting for the pod to be ready. Elapsed time: $seconds seconds. Current status: $pod_status"
-          #     echo "Pod failed to start or is still pending. Exiting..."
-          #     exit 1
-          #   elif [ "$pod_status" == "Running" ]; then
-          #     echo "Pod is running!"
-          #     exit 0
-          #   else
-          #     echo "Waiting for the pod to be ready. Elapsed time: $seconds seconds."
-          #     sleep 10
-          #     seconds=$((seconds+10))
-          #   fi
-          # done
+          while [ "$seconds" -lt "$max_seconds" ]; do
+            pod_status=$(kubectl get pods -n my-app -o jsonpath='{.status.phase}')
+            if [ "$pod_status" == "Failed" ] || [ "$pod_status" == "Pending" ]; then
+              echo "Waiting for the pod to be ready. Elapsed time: $seconds seconds. Current status: $pod_status"
+              echo "Pod failed to start or is still pending. Exiting..."
+              exit 1
+            elif [ "$pod_status" == "Running" ]; then
+              echo "Pod is running!"
+              exit 0
+            else
+              echo "Waiting for the pod to be ready. Elapsed time: $seconds seconds."
+              sleep 10
+              seconds=$((seconds+10))
+            fi
+          done
 
-          # echo "Timeout: Pod did not become ready within the allotted time."
-          # exit 1
+          echo "Timeout: Pod did not become ready within the allotted time."
+          exit 1
 
       
       - name: Try the cluster !
