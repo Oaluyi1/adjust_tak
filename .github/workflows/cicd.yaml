@@ -128,22 +128,14 @@ jobs:
 
       - name: Download ALB Ingress Controller
         run: |
-          wget -O aws-load-balancer-controller-2.6.2.tar.gz https://github.com/kubernetes-sigs/aws-load-balancer-controller/archive/refs/tags/v2.6.2.tar.gz
-          tar -xzvf aws-load-balancer-controller-2.6.2.tar.gz
-          mv aws-load-balancer-controller-2.6.2 deploy
-          rm aws-load-balancer-controller-2.6.2.tar.gz
+          helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+          --set autoDiscoverAwsRegion=true \
+          --set autoDiscoverAwsVpcID=true \
+          --set clusterName=learnk8s
       
-      - name: Apply ALB Ingress Controller Overlays
+      - name: verify ingress controller is running
         run: |
-          kubectl apply -k deploy/helm/aws-load-balancer-controller/crds/
-          - kustomization.yaml
-          - crds.yaml
-          
-          # Wait for the ALB Ingress Controller to be ready
-          kubectl wait --namespace kube-system \
-            --for=condition=ready pod \
-            --selector=app.kubernetes.io/name=alb-ingress-controller \
-            --timeout=120s
+          kubectl get pods -l "app.kubernetes.io/name=aws-load-balancer-controller"
 
       - name: Deploy to EKS Cluster
         run: | 
