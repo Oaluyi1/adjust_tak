@@ -128,7 +128,7 @@ jobs:
 
       - name: Download ALB Ingress Controller
         run: |
-          helm repo add alb-ingress https://kubernetes-sigs.github.io/aws-alb-ingress-controller && helm install alb-ingress/alb-ingress-controller \
+          helm repo add alb-ingress https://github.com/kubernetes-sigs/aws-load-balancer-controller && helm install alb-ingress/alb-ingress-controller \
           --set autoDiscoverAwsRegion=true \
           --set autoDiscoverAwsVpcID=true \
           --set clusterName=adjust-app-ctr
