@@ -128,7 +128,7 @@ jobs:
 
       - name: Download ALB Ingress Controller
         run: |
-          helm install aws-load-balancer-controller kubernetes-sigs/aws-load-balancer-controller \
+          helm install aws-load-balancer-controller aws-load-balancer-controller \
           --set autoDiscoverAwsRegion=true \
           --set autoDiscoverAwsVpcID=true \
           --set clusterName=learnk8s
