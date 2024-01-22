@@ -35,17 +35,16 @@ service:
   type: LoadBalancer
   enabled: true
 
-#Ingress configuration
+# Ingress configuration
 ingress:
   enabled: false
   name: hello-python-app
   annotations:
-    annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 5000}]'
   hosts:
-      paths:
+    - paths:
         - path: /hello
           backend:
             serviceName: app-service
