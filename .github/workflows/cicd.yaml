@@ -93,11 +93,12 @@ jobs:
           password: ${{ secrets.PASSWORD }}
       
       - name: Configure AWS Credentials Action For GitHub Actions
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@567d4149d67f15f52b09796bea6573fc32952783
         with:
           role-to-assume: ${{ secrets.IAM_ROLE }}
           role-session-name: AWSSession
           aws-region: eu-west-2
+          mask-aws-account-id: false
 
       - name: Build Docker Image
         uses: docker/build-push-action@v5.1.0
