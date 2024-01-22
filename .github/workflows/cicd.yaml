@@ -126,11 +126,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_PASSWORD }}
           aws-region: ${{ secrets.REGION }}
 
-      - name: Deploy ALB Ingress Controller
+      - name: Download ALB Ingress Controller Overlays
         run: |
-          git clone https://github.com/kubernetes-sigs/aws-load-balancer-controller.git
-          cd aws-load-balancer-controller
-          kubectl apply -k deploy/kubernetes/overlays/e2e
+          wget -O alb-ingress-controller-overlays.tar.gz https://github.com/kubernetes-sigs/aws-load-balancer-controller/archive/refs/tags/v2.6.0.tar.gz
+          tar -xzvf alb-ingress-controller-overlays.tar.gz
+          mv aws-load-balancer-controller-2.6.0/deploy/kubernetes/overlays/e2e .
+      
+      - name: Apply ALB Ingress Controller Overlays
+        run: |
+          kubectl apply -k e2e
           
           # Wait for the ALB Ingress Controller to be ready
           kubectl wait --namespace kube-system \
