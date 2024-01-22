@@ -24,6 +24,7 @@ jobs:
           pip install --upgrade pip
           pip install flake8
           pip install black
+          sudo apt-get install git
       
       - name: Debug installed packages
         run: |
@@ -127,8 +128,8 @@ jobs:
 
       - name: Deploy ALB Ingress Controller
         run: |
-          git clone --branch 5e07dced064969588164c60cd493ce7921e913da --single-branch https://github.com/kubernetes-sigs/aws-alb-ingress-controller.git
-          cd aws-alb-ingress-controller
+          git clone https://github.com/kubernetes-sigs/aws-load-balancer-controller.git
+          cd aws-load-balancer-controller
           kubectl apply -k deploy/kubernetes/overlays/e2e
           
           # Wait for the ALB Ingress Controller to be ready
