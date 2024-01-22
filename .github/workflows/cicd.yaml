@@ -135,11 +135,9 @@ jobs:
       
       - name: Apply ALB Ingress Controller Overlays
         run: |
-          kubectl apply -k deploy/config/controller/
+          kubectl apply -k deploy/helm/aws-load-balancer-controller/crds/
           - kustomization.yaml
-          - controller.yaml
-          - security_context_patch.yaml
-          - iam_for_sa_patch.yaml
+          - crds.yaml
           
           # Wait for the ALB Ingress Controller to be ready
           kubectl wait --namespace kube-system \
