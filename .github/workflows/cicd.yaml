@@ -128,9 +128,9 @@ jobs:
 
       - name: Download ALB Ingress Controller Overlays
         run: |
-          wget -O alb-ingress-controller-overlays.tar.gz https://github.com/kubernetes-sigs/aws-load-balancer-controller/archive/refs/tags/v2.6.0.tar.gz
-          tar -xzvf alb-ingress-controller-overlays.tar.gz
-          mv aws-load-balancer-controller-2.6.0/deploy/kubernetes/overlays/e2e .
+          wget -O aws-load-balancer-controller-2.6.2.tar.gz https://github.com/kubernetes-sigs/aws-load-balancer-controller/archive/refs/tags/v2.6.2.tar.gz
+          tar -xzvf aws-load-balancer-controller-2.6.2.tar.gz
+          mv aws-load-balancer-controller-2.6.2.tar.gz .
       
       - name: Apply ALB Ingress Controller Overlays
         run: |
