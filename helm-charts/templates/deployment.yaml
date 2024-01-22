@@ -20,23 +20,45 @@ spec:
       containers:
       - name: {{ .Values.service.name }}-container
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        # command: ["gunicorn"]
+        # args: ["--bind 0.0.0.0:5000 app.app:app && app/apphealthy.sh"]
         ports:
         - name: http
           containerPort: {{ .Values.service.externalPort }}
           protocol: TCP
-      {{- if .Values.resources -}}
+        
+        livenessProbe:
+          httpGet:
+            path: /hello
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
         resources:
-          {{- toYaml .Values.resources | nindent 12 -}}
-      {{- end -}}
-        volumeMounts:
-          - mountPath: "/app"
-            name: app-volume
-            readOnly: true
+          {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
         securityContext:
           allowPrivilegeEscalation: true
           readOnlyRootFilesystem: true
           runAsNonRoot: true
       volumes:
-      - name: app-volume
-        emptyDir:
-          medium: Memory
+      - name: kube-api-access
+        projected:
+          sources:
+          - serviceAccountToken:
+              path: kube-api-access
+              expirationSeconds: 3607
+          - configMap:
+              name: kube-root-ca.crt
