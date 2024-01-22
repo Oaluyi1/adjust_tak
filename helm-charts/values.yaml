@@ -52,7 +52,7 @@ ingress:
           pathType: Prefix
         - path: /health
           backend:
-            serviceName: hello
+            serviceName: app-service
             servicePort: 5000
           pathType: Prefix
 
