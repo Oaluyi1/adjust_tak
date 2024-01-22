@@ -142,7 +142,7 @@ jobs:
           
           sleep 70s
           # Deploy or upgrade with Helm
-          helm install --debug my-release eks/aws-load-balancer-controller \
+          helm install --debug my-release helm-charts -f helm-charts/values.yaml \
             --set autoDiscoverAwsRegion=true \
             --set autoDiscoverAwsVpcID=true \
             --set clusterName=adjust-app-ctr \
@@ -178,3 +178,5 @@ jobs:
           kubectl describe pods -n hello-python-app
           kubectl get deployments -n hello-python-app
           kubectl get services -n hello-python-app
+          
+          
