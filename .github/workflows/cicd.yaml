@@ -127,7 +127,7 @@ jobs:
 
       - name: Deploy ALB Ingress Controller
         run: |
-          kubectl apply -k "github.com/kubernetes-sigs/aws-alb-ingress-controller/deploy/kubernetes/overlays/e2e/?ref=release/v2.3.0"
+          kubectl apply -k "github.com/kubernetes-sigs/aws-alb-ingress-controller/deploy/kubernetes/overlays/e2e/?ref=release/v2.6.2"
           
           # Wait for the ALB Ingress Controller to be ready
           kubectl wait --namespace kube-system \
