@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ if .Values.ingress.hosts.backend.serviceName }}
-          {{ .Values.ingress.hosts.backend.serviceName }}-deployment
+  name: {{ if .Values.ingress.backend.serviceName }}
+          {{ .Values.ingress.backend.serviceName }}-deployment
         {{ else }}
           default-service
         {{ end }}
