@@ -16,5 +16,3 @@ spec:
               servicePort: {{ .backend.servicePort }}
               pathType: {{ .backend.pathType | quote }}
           {{- end }}
-    {{- end }}
-# {{- end }}
