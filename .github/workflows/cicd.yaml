@@ -135,7 +135,7 @@ jobs:
       
       - name: Apply ALB Ingress Controller Overlays
         run: |
-          kubectl apply -k e2e
+          kubectl apply -k deploy
           
           # Wait for the ALB Ingress Controller to be ready
           kubectl wait --namespace kube-system \
