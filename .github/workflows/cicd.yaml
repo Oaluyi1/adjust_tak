@@ -128,10 +128,11 @@ jobs:
 
       - name: Download ALB Ingress Controller
         run: |
-          helm repo add alb-ingress https://github.com/kubernetes-sigs/aws-load-balancer-controller && helm install alb-ingress/alb-ingress-controller \
-          --set autoDiscoverAwsRegion=true \
-          --set autoDiscoverAwsVpcID=true \
-          --set clusterName=adjust-app-ctr
+          helm repo add eks https://aws.github.io/eks-charts
+          helm install alb-ingress-controller eks/aws-load-balancer-controller \
+            --set autoDiscoverAwsRegion=true \
+            --set autoDiscoverAwsVpcID=true \
+            --set clusterName=adjust-app-ctr
       
       - name: verify ingress controller is running
         run: |
