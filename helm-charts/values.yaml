@@ -50,11 +50,11 @@ ingress:
             serviceName: app-service
             servicePort: 5000
           pathType: Prefix
-        # - path: /health
-        #   backend:
-        #     serviceName: hello
-        #     servicePort: 5000
-        #   pathType: Prefix
+        - path: /health
+          backend:
+            serviceName: hello
+            servicePort: 5000
+          pathType: Prefix
 
 # Release information
 release:
