@@ -91,6 +91,13 @@ jobs:
         with:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
+      
+      - name: Configure AWS Credentials Action For GitHub Actions
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          role-to-assume: ${{ secrets.IAM_ROLE }}
+          role-session-name: AWSSession
+          aws-region: eu-west-2
 
       - name: Build Docker Image
         uses: docker/build-push-action@v5.1.0
@@ -128,10 +135,10 @@ jobs:
 
       - name: Download ALB Ingress Controller
         run: |
-          helm install aws-load-balancer-controller aws-load-balancer-controller \
+          helm repo add alb-ingress https://kubernetes-sigs.github.io/aws-alb-ingress-controller && helm install alb-ingress/alb-ingress-controller \
           --set autoDiscoverAwsRegion=true \
           --set autoDiscoverAwsVpcID=true \
-          --set clusterName=learnk8s
+          --set clusterName=adjust-app-ctr
       
       - name: verify ingress controller is running
         run: |

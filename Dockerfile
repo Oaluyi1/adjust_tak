@@ -46,4 +46,7 @@ COPY . /app/
 EXPOSE 5000
 
 # Run the app using Gunicorn
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:5000 app.app:app && ./app/apphealthy.sh"]
+#CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:5000 app.app:app && ./app/apphealthy.sh"]
+
+# Run Python Command
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
