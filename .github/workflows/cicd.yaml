@@ -126,11 +126,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_PASSWORD }}
           aws-region: ${{ secrets.REGION }}
 
-      - name: Download ALB Ingress Controller Overlays
+      - name: Download ALB Ingress Controller
         run: |
           wget -O aws-load-balancer-controller-2.6.2.tar.gz https://github.com/kubernetes-sigs/aws-load-balancer-controller/archive/refs/tags/v2.6.2.tar.gz
           tar -xzvf aws-load-balancer-controller-2.6.2.tar.gz
-          mv aws-load-balancer-controller-2.6.2.tar.gz .
+          mv aws-load-balancer-controller-2.6.2 deploy
+          rm aws-load-balancer-controller-2.6.2.tar.gz
       
       - name: Apply ALB Ingress Controller Overlays
         run: |
