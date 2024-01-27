@@ -1,4 +1,4 @@
-# Official Python image
+# Use the official Python image
 FROM python:3.11.3-slim-buster
 
 # Arguments
@@ -27,13 +27,13 @@ COPY . /usr/src/app
 # Copy only the requirements file into the container at /app
 COPY requirements.txt /usr/src/app/requirements.txt
 
-RUN pip install --upgrade pip --no-cache-dir 
 # Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip --no-cache-dir \
+    && pip install --no-cache-dir -r requirements.txt \
+    && pip install uwsgi
 
 # Expose the app port
 EXPOSE 5000
 
-# Run the app using python command and disabling the development server message
-CMD ["python", "-m", "flask", "run", "--host=0.0.0.0", "--port=5000"]
-
+# Command to run uWSGI with the application
+CMD ["uwsgi", "--http", "0.0.0.0:5000", "--module", "app:app", "--processes", "4", "--threads", "2", "--master"]
