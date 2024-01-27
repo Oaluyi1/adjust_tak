@@ -24,14 +24,9 @@ WORKDIR /usr/src/app
 # Copy the current directory contents into the container at /app
 COPY . /usr/src/app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y uwsgi
-
-# Update pip
-RUN pip install --upgrade pip --no-cache-dir
-
-# Install other Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install dependencies, including uwsgi
+RUN pip install --upgrade pip --no-cache-dir \
+    && pip install --no-cache-dir -r requirements.txt
 
 # Expose the app port
 EXPOSE 5000
