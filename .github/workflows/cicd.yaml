@@ -73,7 +73,7 @@ jobs:
           sudo chmod +x /bin/hadolint
 
       - name: Run Hadolint
-        run: hadolint --ignore DL3008, DL3015 Dockerfile
+        run: hadolint --ignore DL3008 Dockerfile
 
   build-Docker-image:
     runs-on: ubuntu-latest
@@ -117,7 +117,7 @@ jobs:
           image-ref: 2470/home_task:latest
           format: 'table'
           exit-code: '0'
-          
+
       - name: Install Helm
         run: |
           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
