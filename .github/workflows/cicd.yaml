@@ -73,7 +73,7 @@ jobs:
           sudo chmod +x /bin/hadolint
 
       - name: Run Hadolint
-        run: hadolint --ignore DL3008 Dockerfile
+        run: hadolint Dockerfile
 
   build-Docker-image:
     runs-on: ubuntu-latest
