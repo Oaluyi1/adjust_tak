@@ -35,4 +35,4 @@ EXPOSE 5000
 COPY uwsgi.ini /app/uwsgi.ini
 
 # Command to run uWSGI with the application
-CMD ["uwsgi", "--ini", "/app/uwsgi.ini"]
+CMD ["uwsgi", "--ini", "/usr/src/app/uwsgi.ini"]
