@@ -18,11 +18,11 @@ RUN groupadd --gid $USER_GID $USERNAME \
 # Set the default user
 USER $USER_UID:$USER_GID
 
-# Set the working directory to /app
+# Set the working directory to /usr/src/app
 WORKDIR /usr/src/app
 
-# Copy the current directory contents into the container at /app
-COPY . /usr/src/app
+# Copy the current directory contents into the container at /usr/src/app
+COPY . .
 
 # Install dependencies, including uwsgi
 RUN pip install --upgrade pip \
@@ -32,7 +32,7 @@ RUN pip install --upgrade pip \
 EXPOSE 5000
 
 # Create a separate uWSGI configuration file
-COPY uwsgi.ini /app/uwsgi.ini
+COPY uwsgi.ini .
 
 # Command to run uWSGI with the application
-CMD ["uwsgi", "--ini", "/usr/src/app/uwsgi.ini"]
+CMD ["uwsgi", "--ini", "uwsgi.ini"]
