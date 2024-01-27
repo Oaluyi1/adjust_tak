@@ -106,6 +106,7 @@ jobs:
       
       - name: Run Containerized Tests
         run: |
+          docker pull 2470/home_task:latest
           docker run -d --name test-container 2470/home_task:latest
           docker exec test-container python -m unittest testing/test_app.py
           docker stop test-container
