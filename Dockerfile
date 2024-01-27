@@ -25,7 +25,6 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Install dependencies, including uwsgi
-RUN apt-get update && apt-get install -y build-essential
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 RUN pip install -vvv --no-cache-dir uwsgi==2.0.19.1
