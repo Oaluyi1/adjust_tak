@@ -29,8 +29,11 @@ COPY requirements.txt /usr/src/app/requirements.txt
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --upgrade pip --no-cache-dir \
+    && echo "Debug point 1" \
     && pip install --no-cache-dir -r requirements.txt \
-    && pip install uwsgi
+    && echo "Debug point 2" \
+    && pip install uwsgi \
+    && echo "Debug point 3"
 
 # Expose the app port
 EXPOSE 5000
