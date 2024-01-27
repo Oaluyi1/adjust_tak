@@ -27,6 +27,9 @@ COPY . /usr/src/app
 # Separate the pip install commands
 RUN pip install --upgrade pip --no-cache-dir
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Update pip and install uwsgi
+RUN pip install --upgrade pip
 RUN pip install uwsgi
 
 # Expose the app port
