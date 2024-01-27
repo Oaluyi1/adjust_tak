@@ -24,16 +24,10 @@ WORKDIR /usr/src/app
 # Copy the current directory contents into the container at /app
 COPY . /usr/src/app
 
-# Copy only the requirements file into the container at /app
-COPY requirements.txt /usr/src/app/requirements.txt
-
-# Install any needed packages specified in requirements.txt
-RUN pip install --upgrade pip --no-cache-dir \
-    && echo "Debug point 1" \
-    && pip install --no-cache-dir -r requirements.txt \
-    && echo "Debug point 2" \
-    && pip install uwsgi \
-    && echo "Debug point 3"
+# Separate the pip install commands
+RUN pip install --upgrade pip --no-cache-dir
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install uwsgi
 
 # Expose the app port
 EXPOSE 5000
