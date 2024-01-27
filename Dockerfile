@@ -26,7 +26,8 @@ COPY . .
 
 # Install dependencies, including uwsgi
 RUN pip install --upgrade pip \
-    && pip install -r requirements.txt
+    && pip install -r requirements.txt \
+    && pip install uwsgi
 
 # Expose the app port
 EXPOSE 5000
@@ -35,4 +36,5 @@ EXPOSE 5000
 COPY uwsgi.ini .
 
 # Command to run uWSGI with the application
-CMD ["uwsgi", "--ini", "uwsgi.ini"]
+CMD ["/usr/local/bin/uwsgi", "--ini", "uwsgi.ini"]
+
