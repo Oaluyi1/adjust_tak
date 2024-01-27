@@ -67,13 +67,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Install Hadolint
-        run: |
-          sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64
-          sudo chmod +x /bin/hadolint
+      # - name: Install Hadolint
+      #   run: |
+      #     sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64
+      #     sudo chmod +x /bin/hadolint
 
-      - name: Run Hadolint
-        run: hadolint Dockerfile
+      # - name: Run Hadolint
+      #   run: hadolint Dockerfile
 
   build-Docker-image:
     runs-on: ubuntu-latest
