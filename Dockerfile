@@ -27,7 +27,7 @@ COPY . .
 # Install dependencies, including uwsgi
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-RUN pip install uwsgi
+RUN pip install uwsgi==2.0.19.1 -vvv --no-cache-dir
 
 # Expose the app port
 EXPOSE 5000
