@@ -1,5 +1,5 @@
 # Use the official Python image
-FROM python:3.11.3-slim-buster
+FROM python:3.9-slim
 
 # Arguments
 ARG USER_UID=1000
@@ -26,10 +26,10 @@ COPY . /usr/src/app
 
 # Install dependencies, including uwsgi
 RUN pip install --upgrade pip --no-cache-dir \
-    && pip install --no-cache-dir -r requirements.txt
+    && pip install -r requirements.txt
 
 # Expose the app port
 EXPOSE 5000
 
 # Command to run uWSGI with the application
-CMD ["uwsgi", "--http", "0.0.0.0:5000", "--module", "app:app", "--processes", "4", "--threads", "2", "--master"]
+CMD ["uwsgi", "--ini", "/app/uwsgi.ini", "0.0.0.0:5000", "--module", "app:app", "--processes", "4", "--threads", "2", "--master"]
