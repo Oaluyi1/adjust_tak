@@ -30,6 +30,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Update pip and install uwsgi
 RUN pip install --upgrade pip
+RUN pip install --trusted-host pypi.python.org --trusted-host pypi.org --trusted-host=files.pythonhosted.org uwsgi
 RUN pip install uwsgi
 
 # Expose the app port
