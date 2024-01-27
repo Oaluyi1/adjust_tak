@@ -72,8 +72,8 @@ jobs:
           sudo wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/latest/download/hadolint-Linux-x86_64
           sudo chmod +x /bin/hadolint
 
-      # - name: Run Hadolint
-      #   run: hadolint --ignore DL3008, DL3015 Dockerfile
+      - name: Run Hadolint
+        run: hadolint --ignore DL3008, DL3015 Dockerfile
 
   build-Docker-image:
     runs-on: ubuntu-latest
@@ -102,7 +102,14 @@ jobs:
             org.opencontainers.image.title=my-app
             org.opencontainers.image.description=Docker image for the app
           tags: 2470/home_task:latest
-        id: docker_build    
+        id: docker_build
+      
+      - name: Run Containerized Tests
+        run: |
+          docker run -d --name test-container 2470/home_task:latest
+          docker exec test-container python -m unittest tests.py
+          docker stop test-container
+          docker rm test-container
       
       - name: Run Security Scan
         uses: aquasecurity/trivy-action@master
@@ -110,6 +117,12 @@ jobs:
           image-ref: 2470/home_task:latest
           format: 'table'
           exit-code: '0'
+          
+      - name: Install Helm
+        run: |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
 
   eks-deploy:
     runs-on: ubuntu-latest

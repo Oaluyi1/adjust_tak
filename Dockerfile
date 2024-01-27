@@ -1,5 +1,5 @@
 # Official Python image
-FROM python:3.10.5-buster
+FROM python:3.11.3-slim-buster
 
 # Arguments
 ARG USER_UID=1000
@@ -19,34 +19,21 @@ RUN groupadd --gid $USER_GID $USERNAME \
 USER $USER_UID:$USER_GID
 
 # Set the working directory to /app
-WORKDIR /app
-
-# Copy only the requirements file into the container at /app
-COPY requirements.txt .
-
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Install Gunicorn
-RUN pip install gunicorn
-
-# # Install Helm
-# RUN apt-get update && \
-#     apt-get install -y apt-transport-https gnupg && \
-#     curl -fsSL https://baltocdn.com/helm/signing.asc | gpg --dearmor -o /usr/share/keyrings/helm-archive-keyring.gpg && \
-#     echo "deb [signed-by=/usr/share/keyrings/helm-archive-keyring.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable.list > /dev/null && \
-#     apt-get update && \
-#     apt-get install -y helm && \
-#     rm -rf /var/lib/apt/lists/*
+WORKDIR /usr/src/app
 
 # Copy the current directory contents into the container at /app
-COPY . /app/
+COPY . /usr/src/app
+
+# Copy only the requirements file into the container at /app
+COPY requirements.txt /usr/src/app/requirements.txt
+
+RUN pip install --upgrade pip --no-cache-dir 
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose the app port
 EXPOSE 5000
 
-# Run the app using Gunicorn
-#CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:5000 app.app:app && ./app/apphealthy.sh"]
+# Run the app using python command and disabling the development server message
+CMD ["python", "-m", "flask", "run", "--host=0.0.0.0", "--port=5000"]
 
-# Run Python Command
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
