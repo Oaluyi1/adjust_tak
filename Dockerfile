@@ -25,9 +25,9 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Install dependencies, including uwsgi
-RUN pip install --upgrade pip \
-    && pip install -r requirements.txt \
-    && pip install uwsgi
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+RUN pip install uwsgi
 
 # Expose the app port
 EXPOSE 5000
