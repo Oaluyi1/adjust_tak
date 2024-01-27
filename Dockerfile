@@ -7,34 +7,31 @@ ARG USER_GID=$USER_UID
 ARG USERNAME=nonrootuser
 
 # Create the user with limited sudo privileges
-RUN if ! getent group $USERNAME > /dev/null; then groupadd --gid $USER_GID $USERNAME; fi \
-    && if ! id -u $USERNAME > /dev/null; then useradd --uid $USER_UID --gid $USER_GID -m $USERNAME; fi \
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
     && apt-get update \
     && apt-get install -y --no-install-recommends sudo \
-    && echo "$USERNAME ALL=(root) NOPASSWD:/usr/bin/pip,/usr/bin/uwsgi" > /etc/sudoers.d/$USERNAME \
+    && echo "$USERNAME ALL=(root) NOPASSWD:/usr/bin/pip,/usr/local/bin/gunicorn" > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the default user
 USER $USER_UID:$USER_GID
 
-# Set the working directory to /usr/src/app
+# Set the working directory to /app
 WORKDIR /usr/src/app
 
-# Copy the current directory contents into the container at /usr/src/app
-COPY . .
+# Copy the current directory contents into the container at /app
+COPY . /usr/src/app
 
-# Install dependencies, including uwsgi
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-RUN pip install -vvv --no-cache-dir uwsgi==2.0.19.1
+# Install dependencies, including gunicorn
+RUN pip install --upgrade pip \
+    && pip install -r requirements.txt \
+    && pip install gunicorn
 
 # Expose the app port
 EXPOSE 5000
 
-# Create a separate uWSGI configuration file
-COPY uwsgi.ini .
-
-# Command to run uWSGI with the application
-CMD ["/usr/local/bin/uwsgi", "--ini", "uwsgi.ini"]
+# Command to run Gunicorn with the application and apphealthy.sh
+CMD ["gunicorn", "-w", "4", "--bind", "0.0.0.0:5000", "--preload", "app:app", "app/apphealthy.sh"]
 
