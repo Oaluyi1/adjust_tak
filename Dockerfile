@@ -32,4 +32,4 @@ RUN pip install --upgrade pip \
 EXPOSE 5000
 
 # Command to run Gunicorn with the application
-CMD ["/usr/local/bin/gunicorn", "-w", "4", "--bind", "0.0.0.0:5000", "--preload", "app:app"]
+CMD ["gunicorn", "-w", "4", "--bind", "0.0.0.0:5000", "--preload", "app:app"]
