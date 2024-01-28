@@ -5,6 +5,7 @@ FROM python:3.9-slim
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 ARG USERNAME=nonrootuser
+ARG HOME=/home/$USERNAME
 
 # Create the user with limited sudo privileges
 RUN groupadd --gid $USER_GID $USERNAME \
@@ -26,10 +27,14 @@ COPY . /usr/src/app
 
 # Install dependencies, including gunicorn
 RUN pip install --upgrade pip \
-    && pip install -r requirements.txt
+    && pip install -r requirements.txt \
+    && pip install gunicorn
 
 # Expose the app port
 EXPOSE 5000
+
+# Set the PATH for the user
+ENV PATH=$HOME/.local/bin:$PATH
 
 # Command to run Gunicorn with the application
 CMD ["gunicorn", "-w", "4", "--bind", "0.0.0.0:5000", "--preload", "app:app"]
