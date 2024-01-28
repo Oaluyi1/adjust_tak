@@ -156,7 +156,7 @@ jobs:
           
           sleep 70s
           # Deploy or upgrade with Helm
-          helm install --debug my-release helm-charts -f helm-charts/values.yaml \
+          helm upgrade --install --debug my-release helm-charts -f helm-charts/values.yaml \
             --set autoDiscoverAwsRegion=true \
             --set autoDiscoverAwsVpcID=true \
             --set clusterName=adjust-app-ctr \
