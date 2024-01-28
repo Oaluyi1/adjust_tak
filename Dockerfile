@@ -16,8 +16,9 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 
 # Install dependencies, including gunicorn
-RUN pip install --upgrade pip \
-    && pip install -r requirements.txt
+RUN pip install --upgrade pip 
+
+RUN pip install -r requirements.txt
 
 # Expose the app port
 EXPOSE 5000
