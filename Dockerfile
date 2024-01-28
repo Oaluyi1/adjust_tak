@@ -28,8 +28,6 @@ COPY . /usr/src/app
 RUN pip install --upgrade pip \
     && pip install -r requirements.txt
 
-RUN which gunicorn
-
 # Expose the app port
 EXPOSE 5000
 
