@@ -1,5 +1,5 @@
 # Use the official Python image
-FROM alpine:3.14
+FROM buildpack-deps:bookworm
 
 # Arguments for user configuration
 ARG USER_UID=1000
