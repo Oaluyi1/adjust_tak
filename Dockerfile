@@ -26,11 +26,12 @@ COPY . /usr/src/app
 
 # Install dependencies, including gunicorn
 RUN pip install --upgrade pip \
-    && pip install -r requirements.txt \
-    && pip install gunicorn
+    && pip install -r requirements.txt
+
+RUN which gunicorn
 
 # Expose the app port
 EXPOSE 5000
 
 # Command to run Gunicorn with the application
-CMD ["gunicorn", "-w", "4", "--bind", "0.0.0.0:5000", "--preload", "app:app"]
+CMD ["/usr/local/bin/gunicorn", "-w", "4", "--bind", "0.0.0.0:5000", "--preload", "app:app"]
