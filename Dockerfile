@@ -1,6 +1,5 @@
 # Use the official Python image
-FROM buildpack-deps:bookworm
-
+FROM python:3.11.7-alpine3.18
 # Arguments for user configuration
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
