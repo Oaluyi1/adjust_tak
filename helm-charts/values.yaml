@@ -21,12 +21,12 @@ securityContext:
   runAsUser: 1000
 
 resources: 
-  requests:
-    memory: "64Mi"  # Adjust based on your application's memory requirements
-    cpu: "100m"     # Adjust based on your application's CPU requirements
   limits:
-    memory: "256Mi" # Adjust based on your application's maximum memory usage
-    cpu: "200m"     # Adjust based on your application's maximum CPU usage
+    cpu: 900m
+    memory: 1Gi
+  requests:
+    cpu: 20m
+    memory: 512Mi
 
 service: 
   name: hello
