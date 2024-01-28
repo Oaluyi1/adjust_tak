@@ -16,7 +16,7 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 
 # Install dependencies, including gunicorn
-RUN pip install --upgrade pip 
+#RUN pip install --upgrade pip 
 
 RUN pip install -r requirements.txt
 
